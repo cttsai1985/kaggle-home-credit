@@ -21,9 +21,15 @@ The feature set combines:
 
 The selected-feature recipe builds on the original repository's credited Aguiar/Grellier implementation. It excludes four labeled `CODE_GENDER=XNA` rows and retains **307,507 training applicants**. No applicant identifiers or target values enter the model inputs.
 
-Five shuffled folds produce one held-out prediction per training applicant. Early stopping uses that fold's validation AUC; the final test probability averages the five fold models. The reference profile retains the original selected-model settings. A separate capacity profile tests more leaves and lower minimum leaf Hessian while keeping the feature table and fold assignment fixed.
+Five fixed-seed stratified folds produce one held-out prediction per training applicant while preserving the target proportions. Early stopping uses that fold's validation AUC; the final test probability averages the five fold models. The default profile fixes StratifiedKFold seed 1001 and the model settings before evaluation. A historical KFold reference and one capacity comparison remain separate, recorded experiments.
 
 Some unlabeled category vocabularies and organization-income summaries use the combined application population, as in the historical competition design. This transductive experiment does not establish performance on future production applicants. [Method notes](docs/migration.md) explain the assumptions, attribution and changes.
+
+## Stratified validation and diagnostics
+
+`home-credit analyze` independently checks the configured assignments, applicant identity, complete OOF coverage and per-fold target balance. It recomputes pooled AUC, reports fold mean/std/min/max and best iterations, and summarizes covariates for weaker-fold and train/test comparisons. Reports link model/data hashes without rewriting the trained run.
+
+The full stratified run reaches **0.79257 OOF AUC** over 307,507 applicants. The eligible dataset has 24,825 positive targets; stratification assigns 4,965 to each validation fold. Fold AUC ranges from **0.78784 to 0.79653**, with sample standard deviation **0.00338**. Balanced targets do not guarantee equal case difficulty or lower AUC variance. Fold spread is descriptive, not a confidence interval. Early stopping uses the reported validation fold for checkpoint selection, so its AUC can be optimistic. See [cross-validation diagnostics](docs/cross-validation.md).
 
 ## Benchmark results
 
@@ -35,7 +41,7 @@ The competition metric is **ROC AUC**, where higher is better. Historical accoun
 | Final XGBoost stack | 0.79682 | 0.79237 |
 | Blend | 0.79764 | 0.79158 |
 
-The current full five-fold baseline reaches **0.79281 OOF AUC**, **0.79641 public AUC** and **0.79065 private AUC**. It improves the historical selected model's public score by 0.00070 and is 0.00010 lower on the private score; the historical final stack remains stronger. A higher-capacity comparison was weaker on OOF validation and was not selected for submission.
+The recorded full KFold reference reaches **0.79281 OOF AUC**, **0.79641 public AUC** and **0.79065 private AUC**. It improves the historical selected model's public score by 0.00070 and is 0.00010 lower on the private score; the historical final stack remains stronger. The default stratified run is evaluated separately. A higher-capacity KFold comparison was weaker on OOF validation and was not selected for submission.
 
 Exact experiment settings and file identities are recorded in [the benchmark record](docs/results.md). Out-of-fold validation and leaderboard scores are reported separately; a local AUC is not a reproduced leaderboard score.
 
@@ -50,12 +56,14 @@ export HOME_CREDIT_DATA_DIR=/absolute/path/outside/git/home-credit
 .venv/bin/home-credit download --data-dir "$HOME_CREDIT_DATA_DIR"
 .venv/bin/home-credit validate --data-dir "$HOME_CREDIT_DATA_DIR"
 .venv/bin/home-credit features --data-dir "$HOME_CREDIT_DATA_DIR" --output .local/cache
-.venv/bin/home-credit train --cache .local/cache --config configs/reference.json \
-  --run-dir .local/benchmark
-.venv/bin/home-credit evaluate --cache .local/cache --run-dir .local/benchmark
+.venv/bin/home-credit train --cache .local/cache --config configs/baseline.json \
+  --run-dir .local/stratified-baseline
+.venv/bin/home-credit evaluate --cache .local/cache --run-dir .local/stratified-baseline
+.venv/bin/home-credit analyze --cache .local/cache --run-dir .local/stratified-baseline \
+  --output .local/analyses/stratified.json
 ```
 
-Download requires accepted Kaggle competition rules. Use a new directory for every feature preparation and training invocation. The local runtime uses CPU/Linux/Python 3.12; the package also supports the hosted Python 3.13 runtime; the reference configuration caps training at six threads.
+Download requires accepted Kaggle competition rules. Use a new directory for every feature preparation and training invocation. The local runtime uses CPU/Linux/Python 3.12; the package also supports the hosted Python 3.13 runtime; the default configuration caps training at six threads.
 
 Open [the executed walkthrough](notebooks/01-credit-risk.ipynb) to inspect class imbalance, relational aggregation, fold performance, ROC curves, feature contributions and checkpoint reconstruction. The [runbook](docs/reproduction.md) covers prediction, artifacts and resource requirements.
 

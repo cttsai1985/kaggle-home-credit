@@ -22,6 +22,10 @@ The recipe retains its four-row `XNA` gender exclusion, binary/category encoding
 
 The current package does not reimplement old library internals or assert numerical equivalence. Historical HPO and stacked-model artifacts were not committed and cannot be reconstructed from their filename scores. Stronger current recipes should be labeled as improved models and evaluated against the historical benchmark, rather than described as the same trained model.
 
+## Validation scope
+
+Early stopping selects the checkpoint using the same fold whose AUC is reported. Its labels are excluded from fitting tree gradients but participate in model selection, so this OOF result is a validation estimate with possible selection optimism, not an untouched nested outer-test estimate. A stricter design would use an inner stopping partition and keep the outer fold independent. The fixed feature list and settings also come from prior work on this competition.
+
 ## Benchmark comparison
 
 The account's historical Kaggle records identify these experiments:

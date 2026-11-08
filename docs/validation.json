@@ -160,21 +160,22 @@
     "rows": 307507,
     "saved_predictions_match": true
   },
-  "container_image_id": "sha256:e0bc0aacc4186beb6bcd82d37940d4c71d3c64098536e9113bf5efc57c9715bb",
+  "container_image_id": "sha256:90e23af8a43dcda021cc8f6746a1575ff568bddab3b056e3b30f69ba1a21d7e3",
   "lab_authentication": {
     "lab_started": true,
     "anonymous_rejected": true,
     "authenticated_contents": true
   },
   "tests": {
-    "passed": 5,
-    "upstream_warning": "MLflow SQLAlchemy noload deprecation"
+    "passed": 8,
+    "upstream_warning": "MLflow SQLAlchemy noload deprecation",
+    "docker_lab_passed": 8
   },
   "ruff": "check and format passed",
   "walkthrough": {
-    "executed_code_cells": 7,
+    "executed_code_cells": 10,
     "errors": 0,
-    "aggregate_figures": 3,
+    "aggregate_figures": 4,
     "visually_reviewed": true
   },
   "kaggle_scoring": {
@@ -213,35 +214,313 @@
   },
   "hosted_kaggle": {
     "kernel": "cttsai/home-credit-modern-benchmark",
-    "version": 2,
+    "version": 3,
+    "profile": "stratified-baseline",
     "status": "running",
     "code_asset": {
       "wheel": "home_credit_risk-0.1.0-py3-none-any.whl",
-      "sha256": "fa339bb34e4913317aca075bda106802c0a1b6229e508908100a09561b4d1f0a",
+      "sha256": "3815fc89e361d21dff09aeb202796f1aa24e2185620e2e2e6a70dbc4e86355f4",
       "repository": "https://github.com/cttsai1985/kaggle-home-credit-solution-mlops",
       "source": {
         "legacy_commit": "a378d5f",
-        "git_commit": "864ee88824135c66592d5c7142096543aca68d98",
+        "git_commit": "f08b6dd79487f7222200256ba996e3304468f9ad",
         "git_dirty": false,
         "source_kind": "source-tree",
         "package_version": "0.1.0",
         "source_files": {
           "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
-          "src/home_credit/cli.py": "335d86bc6ab87810a01ee09f2f07b49857d7198ee2385cac27a8c089dff33567",
+          "src/home_credit/cli.py": "6319295043b5cf1e5867948a4ec7c83bb667f1a2120f6650b12b263d633e064c",
           "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
           "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
-          "src/home_credit/pipeline.py": "5ad98e3252d4be9a467bbee52412ec2b5a59b37db34396d330699f44689cdd65",
-          "src/home_credit/tracking.py": "9cf77ac808fb947b812907f7c1f57b83643ad8c6222c89dca478d1c5ead28385"
+          "src/home_credit/pipeline.py": "7cecc45cb6e67151d48ea784e2f122f4d39cf308d7ded23e4cb00275fe3d41e8",
+          "src/home_credit/tracking.py": "ddb1b6ed66dea1a24efc963552f3a06c9c10331c4efdd239a46df18ddab0ca5f"
         }
+      },
+      "configuration_sha256": {
+        "baseline.json": "f479afdf93653afec55615daa58ecd43b0c3c5bb69b471b4efbf3faa8574c65e",
+        "reference.json": "a5f4c2774cc8e68129e3cad2c83cd079ec64dc2941986e5090ffb33b819f0a71"
       }
     },
     "dataset_readiness_and_attached_source_checked": true,
-    "prior_failure": "Version 1 launched before code dataset readiness; read-back metadata showed dropped attachment. Fixed readiness gate before version 2."
+    "reference_version_2": "completed; artifact/OOF/input/test-ID checks and shared proxy round-trip verified",
+    "prior_failure": "Version1 ran before code asset readiness and lost the attachment. Readiness and metadata read-back gates added."
   },
   "limits": [
     "Historical final stack remains stronger than the selected baseline",
     "Transductive unlabeled feature summaries are not a strict inductive production pipeline",
     "Interactive VS Code dev-container session not exercised",
-    "No model registry promotion or Prefect deployment performed"
-  ]
+    "No model registry promotion or Prefect deployment performed",
+    "Validation-fold early stopping/checkpoint selection may make OOF results optimistic; no nested untouched outer test",
+    "Stratification balances targets, but observed AUC dispersion is not reduced or a confidence interval"
+  ],
+  "default_profile": "configs/baseline.json",
+  "stratified_run_manifest": {
+    "schema_version": 1,
+    "project_id": "home-credit",
+    "run_kind": "real_data_model_run",
+    "logical_run_id": "85c150c0-cb3a-4be4-8e3f-38ceabe59c66",
+    "status": "completed",
+    "profile": "stratified-baseline",
+    "source": {
+      "legacy_commit": "a378d5f",
+      "git_commit": "526d16f4b8138fe057f3307310094470ab0709eb",
+      "git_dirty": false,
+      "source_kind": "source-tree",
+      "package_version": "0.1.0",
+      "source_files": {
+        "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+        "src/home_credit/cli.py": "335d86bc6ab87810a01ee09f2f07b49857d7198ee2385cac27a8c089dff33567",
+        "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+        "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+        "src/home_credit/pipeline.py": "55ebc6dcfee4557d2f6b52fa9ac0d75b65b96e56eefd77c6e635249629c66e15",
+        "src/home_credit/tracking.py": "ddb1b6ed66dea1a24efc963552f3a06c9c10331c4efdd239a46df18ddab0ca5f"
+      }
+    },
+    "config": {
+      "name": "stratified-baseline",
+      "folds": 5,
+      "stratified": true,
+      "split_seed": 1001,
+      "threads": 6,
+      "max_rounds": 10000,
+      "early_stopping_rounds": 200,
+      "parameters": {
+        "objective": "binary",
+        "boosting_type": "gbdt",
+        "learning_rate": 0.02,
+        "num_leaves": 20,
+        "feature_fraction": 0.9497036,
+        "bagging_fraction": 0.8715623,
+        "bagging_freq": 1,
+        "max_depth": 8,
+        "lambda_l1": 0.041545473,
+        "lambda_l2": 0.0735294,
+        "min_gain_to_split": 0.0222415,
+        "min_sum_hessian_in_leaf": 60,
+        "seed": 0,
+        "verbosity": -1,
+        "metric": "auc"
+      }
+    },
+    "features": {
+      "schema_version": 1,
+      "recipe": "historical-selected",
+      "source": {
+        "legacy_commit": "a378d5f",
+        "git_commit": "a378d5fcee1895a6229c740779f64b286532de8c",
+        "git_dirty": true,
+        "source_files": {
+          "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+          "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+          "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+          "src/home_credit/pipeline.py": "92860ff39a8015887bbf27d664eca670d5f2b10842b5337f68972896b52408a7"
+        }
+      },
+      "rows": 356251,
+      "columns": 531,
+      "train_rows": 307507,
+      "test_rows": 48744,
+      "row_limit": null,
+      "feature_source_sha256": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+      "input_sha256": {
+        "HomeCredit_columns_description.csv": "eef7665398228a80f7367c9258220c5fbe1038f3f54094244f354d54e2d4fb03",
+        "POS_CASH_balance.csv": "0e13bc573ffa8fc29b3f00d975e557143193a405d675b0e4694b06fbdffcb0cd",
+        "application_test.csv": "a36161331d839150a67b6216d4de066f543a3b01a34061507d40e76612e0dec8",
+        "application_train.csv": "52e96b895b1112e1c853f670e58372719c8441c5ed1c57ac2f7fad559d784f5f",
+        "bureau.csv": "9d799143423f280720cf51c1bfbbab2a0422da8ff2763335bb30bf43155494f7",
+        "bureau_balance.csv": "33e09f06174c26f0be6b8b7398886c69e7bf0abbb29b4122f7841ffe545729a9",
+        "credit_card_balance.csv": "a9cdc48900d55131c90f3128b991859aeb94ca1326fb5f4d1624b9fd03782247",
+        "installments_payments.csv": "428c2e2496e4d6d697ee8270e98497e5213c41be16d882eed1bc95b133726797",
+        "previous_application.csv": "5046cd657ee04df2eaa6dc8308ae86be6b3b1763674a3f63574886a2f2896505",
+        "sample_submission.csv": "95258f8383ad9da4921120d695a12f2321ed7d0963507636f9f38ce0025633cb"
+      },
+      "cache_sha256": "812abaa2004cfa530d662d3fd7ffa996f9ee71b1ff22b36e0ab3d88963ed89d4",
+      "elapsed_seconds": 30.03039350700419
+    },
+    "environment": {
+      "python": "3.12.16",
+      "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+      "device": "cpu",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.1.1",
+        "lightgbm": "4.7.0",
+        "scikit-learn": "1.9.1",
+        "pyarrow": "24.0.0"
+      }
+    },
+    "elapsed_seconds": 951.8191675349954,
+    "metrics": {
+      "oof_roc_auc": 0.7925749500292526,
+      "fold_auc_mean": 0.7925757387254583,
+      "train_rows": 307507,
+      "test_rows": 48744,
+      "features": 528
+    },
+    "artifacts": {
+      "config.json": "f479afdf93653afec55615daa58ecd43b0c3c5bb69b471b4efbf3faa8574c65e",
+      "features.json": "aaadc7d8e5c7849cf940f7274a78d82d6a7720077eb7feb5e470908115908aad",
+      "fold-1.txt": "0273b0cd0e8c5972b276c28c2341fe2aa963ddf07fc298b1b929bd1887aa9706",
+      "fold-2.txt": "c31750f98d9c1673bc0118b97df89ca9283c7c23a10df43bec3c8c8b42e003f6",
+      "fold-3.txt": "b7952fa50236db38438f925d3d0c8472a2bb7db68e97be033558267508356813",
+      "fold-4.txt": "ce6ed55815c02a3d7d37cc2145013128eae111224b6b63a1833194124846165e",
+      "fold-5.txt": "e819ceb48b7d0a44dd75580a2d27a5e3d08afda260892a9a09a4c7f7fc551762",
+      "fold-metrics.json": "2bc091a9a6989f3c377583dfe2758959abd3e2d7e943b94125c64a837d1a3563",
+      "importance.csv": "7d2e0444dea18d3def3b8470409e31142790671e2667d6aa74d3e7602f7c8007",
+      "metrics.json": "c99087a4d511373561cbfd45c1f32d49970b672f01bcd596abe7cc0016d10e80",
+      "oof.csv": "8e7eb2e6b8ea74cf6f39af9396a06674c7bcb161012d5eb0e0172523c47bd1d2",
+      "submission.csv": "cddbc7afaf177018ae8a2f90748141cffe3d67c5f3e1bad2f5c1c26d294dfd19"
+    }
+  },
+  "stratified_run_metrics": {
+    "oof_roc_auc": 0.7925749500292526,
+    "fold_auc_mean": 0.7925757387254583,
+    "train_rows": 307507,
+    "test_rows": 48744,
+    "features": 528
+  },
+  "stratified_independent_reload": {
+    "oof_roc_auc": 0.7925749500292526,
+    "rows": 307507,
+    "saved_predictions_match": true
+  },
+  "stratified_diagnostics": {
+    "splitter": "StratifiedKFold",
+    "split_seed": 1001,
+    "assignment_sha256": "91a0f868e1e44622c2a14580bc1a973d3e7c4f0f0b128695cc572300290c6c77",
+    "assignment_repeatable": true,
+    "eligible_rows": 307507,
+    "oof_rows": 307507,
+    "oof_coverage": 1.0,
+    "id_overlap": 0,
+    "positive_rows": 24825,
+    "positive_rate": 0.08072986956394489,
+    "pooled_oof_roc_auc": 0.7925749500292526,
+    "fold_auc_mean": 0.7925757387254583,
+    "fold_auc_std": 0.0033772991222507927,
+    "fold_auc_min": 0.787840122736154,
+    "fold_auc_max": 0.7965282162629563,
+    "weakest_fold": {
+      "fold": 1,
+      "training_rows": 246005,
+      "validation_rows": 61502,
+      "positive_rows": 4965,
+      "negative_rows": 56537,
+      "positive_rate": 0.08072908198107379,
+      "positive_rate_delta_pp": -7.875828711007005e-05,
+      "roc_auc": 0.787840122736154,
+      "best_iteration": 1989,
+      "id_overlap": 0
+    },
+    "validation_positive_counts": [
+      4965,
+      4965,
+      4965,
+      4965,
+      4965
+    ]
+  },
+  "shared_mlflow_stratified": {
+    "status": "FINISHED",
+    "mlflow_run_id": "d056184ce0a74f14a3433c7efd5c2d44",
+    "cv_report_sha256": "4e271a1562e33ebdfd008701d6244dbccf8ebc2efc642b335c3ae31c0c3c08ba",
+    "artifact_path": "diagnostics/4e271a1562e33ebdfd008701d6244dbccf8ebc2efc642b335c3ae31c0c3c08ba",
+    "project_id": "home-credit",
+    "experiment_id": "6",
+    "experiment_name": "kaggle/home-credit",
+    "duplicate_import": "already_imported",
+    "model_sha256": "0273b0cd0e8c5972b276c28c2341fe2aa963ddf07fc298b1b929bd1887aa9706",
+    "analysis_download_sha256": "4e271a1562e33ebdfd008701d6244dbccf8ebc2efc642b335c3ae31c0c3c08ba",
+    "test_prediction_receipt": {
+      "rows": 48744,
+      "output_sha256": "cddbc7afaf177018ae8a2f90748141cffe3d67c5f3e1bad2f5c1c26d294dfd19",
+      "manifest_sha256": "5957846ee82098eda8a8ddc89cf5f7b293973261cb4769bfee04912fe32e703a"
+    },
+    "official_test_id_order_match": true,
+    "source_commit": "526d16f4b8138fe057f3307310094470ab0709eb"
+  },
+  "docker_synthetic_training": {
+    "scope": "Software fixture, not a benchmark",
+    "status": "completed",
+    "run_kind": "synthetic_fixture",
+    "git_optional_provenance_verified": true
+  },
+  "hosted_reference": {
+    "project_id": "home-credit",
+    "kernel": "cttsai/home-credit-modern-benchmark",
+    "version": 2,
+    "status": "completed",
+    "model_manifest_sha256": "31b7bf9b077d4bdbce1c047d1f00e59e380ba835cad662b2708580dff5d7d220",
+    "bundle_sha256": "8d0cb47d1a6bc01f4031ec1570427a13192e3b6cb928efe46d9008196eddf55d",
+    "metrics": {
+      "oof_roc_auc": 0.7929941861088552,
+      "fold_auc_mean": 0.7930234582516233,
+      "train_rows": 307507,
+      "test_rows": 48744,
+      "features": 528
+    },
+    "independent_oof_auc": 0.7929941861088551,
+    "oof_assignment_matches_declared_seed": true,
+    "raw_input_identities_match_local": true,
+    "official_test_id_order_match": true,
+    "test_rows": 48744,
+    "test_submission_sha256": "35c504453c0449b836cea4a42e9fe5d07b99575e11fbb5f615ad1918ce0c1a34",
+    "environment": {
+      "python": "3.13.18",
+      "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+      "device": "cpu",
+      "packages": {
+        "numpy": "2.1.3",
+        "pandas": "2.3.3",
+        "lightgbm": "4.6.0",
+        "scikit-learn": "1.6.1",
+        "pyarrow": "23.0.1"
+      }
+    },
+    "execution": {
+      "platform": "kaggle",
+      "wheel": "home_credit_risk-0.1.0-py3-none-any.whl",
+      "wheel_sha256": "fa339bb34e4913317aca075bda106802c0a1b6229e508908100a09561b4d1f0a",
+      "code_asset": {
+        "wheel": "home_credit_risk-0.1.0-py3-none-any.whl",
+        "sha256": "fa339bb34e4913317aca075bda106802c0a1b6229e508908100a09561b4d1f0a",
+        "repository": "https://github.com/cttsai1985/kaggle-home-credit-solution-mlops",
+        "source": {
+          "legacy_commit": "a378d5f",
+          "git_commit": "864ee88824135c66592d5c7142096543aca68d98",
+          "git_dirty": false,
+          "source_kind": "source-tree",
+          "package_version": "0.1.0",
+          "source_files": {
+            "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+            "src/home_credit/cli.py": "335d86bc6ab87810a01ee09f2f07b49857d7198ee2385cac27a8c089dff33567",
+            "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+            "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+            "src/home_credit/pipeline.py": "5ad98e3252d4be9a467bbee52412ec2b5a59b37db34396d330699f44689cdd65",
+            "src/home_credit/tracking.py": "9cf77ac808fb947b812907f7c1f57b83643ad8c6222c89dca478d1c5ead28385"
+          }
+        }
+      }
+    },
+    "shared_import": {
+      "experiment": "kaggle/home-credit",
+      "experiment_id": "6",
+      "run_id": "3ab213afcc0d41a8afe3274fa301ff45",
+      "status": "FINISHED",
+      "duplicate_import": "already_imported",
+      "source_commit_tag": "864ee88824135c66592d5c7142096543aca68d98",
+      "downloaded_model_sha256": "e2097cc31b42ce060d769e36bfb7aeae1f563443500f99cf43846d16a6174d9c"
+    }
+  },
+  "docker_stratified_reload": {
+    "oof_roc_auc": 0.7925749500292526,
+    "rows": 307507,
+    "saved_predictions_match": true
+  },
+  "container_shared_artifact_readback": {
+    "uri": "http://mlflow:5000",
+    "network": "kaggle-quant-collections_ui",
+    "model_sha256": "0273b0cd0e8c5972b276c28c2341fe2aa963ddf07fc298b1b929bd1887aa9706",
+    "matches_stratified_model": true
+  }
 }

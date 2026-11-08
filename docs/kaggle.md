@@ -1,6 +1,6 @@
 # Run the package in Kaggle
 
-The educational notebook is `notebooks/01-credit-risk.ipynb`. The thin hosted entry at `notebooks/kaggle/rerun.ipynb` imports the same package, constructs full applicant features, trains five folds and writes `submission.csv` plus `run-bundle.zip` under `/kaggle/working`.
+The educational notebook is `notebooks/01-credit-risk.ipynb`. The thin hosted entry at `notebooks/kaggle/rerun.ipynb` imports the same package, constructs full applicant features, trains five stratified folds and writes `submission.csv`, an independent `cv-report.json`, and `run-bundle.zip` under `/kaggle/working`.
 
 ## Prepare code-only assets
 
@@ -8,7 +8,7 @@ The educational notebook is `notebooks/01-credit-risk.ipynb`. The thin hosted en
 .venv/bin/python scripts/export_kaggle.py
 ```
 
-The ignored `kaggle-bundle/code-dataset` contains a code wheel, reference configuration, license and checksums. No competition data, credentials or trained model is included. The kernel folder contains the hosted notebook and metadata. Adjust owner/slug metadata for another account.
+The ignored `kaggle-bundle/code-dataset` contains a code wheel, baseline and historical reference configurations, license and checksums. No competition data, credentials or trained model is included. The kernel folder contains the hosted notebook and metadata. Adjust owner/slug metadata for another account.
 
 ```bash
 # Account-writing commands; inspect staged files first.
@@ -31,3 +31,9 @@ Retrieve exact notebook/output versions before comparing results. Safely extract
 A competition submission must contain `SK_ID_CURR,TARGET` in official test order. Score only verified complete predictions; keep public/private scores and the exact file hash together in the benchmark evidence. Hosted notebook publication, execution and scoring statuses are recorded separately in [results](results.md).
 
 Metadata follows the [official Kaggle dataset schema](https://github.com/Kaggle/kaggle-cli/blob/main/docs/datasets_metadata.md), including the `apache-2.0` license identifier.
+
+## Verified offline-to-shared round-trip
+
+The private reference notebook version 2 completed full five-fold training and 48,744-row test inference on Kaggle. Its raw input fingerprints match local files; OOF AUC is 0.7929941861 in the independently recorded hosted environment. The retrieved model bundle passed checksum, applicant and assignment checks, then was imported into `kaggle/home-credit`. A repeated import reused the same run; model retrieval through the shared artifact proxy matched its hash. See [hosted evidence](hosted-reference.json).
+
+Version 3 runs the current stratified default and writes its independent CV report. Its in-progress/completed status is recorded separately in [validation.json](validation.json), rather than inferred from the reference run. No leaderboard submission was made from the hosted outputs.

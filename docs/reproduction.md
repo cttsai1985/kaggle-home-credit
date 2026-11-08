@@ -27,14 +27,21 @@ The full selected cache has 307,507 labeled applicants after excluding four hist
 ## Train, reload and generate test predictions
 
 ```bash
-.venv/bin/home-credit train --cache .local/cache --config configs/reference.json \
-  --run-dir .local/benchmark
-.venv/bin/home-credit evaluate --cache .local/cache --run-dir .local/benchmark
-.venv/bin/home-credit predict --cache .local/cache --run-dir .local/benchmark \
+.venv/bin/home-credit train --cache .local/cache --config configs/baseline.json \
+  --run-dir .local/stratified-baseline
+.venv/bin/home-credit evaluate --cache .local/cache --run-dir .local/stratified-baseline
+.venv/bin/home-credit predict --cache .local/cache --run-dir .local/stratified-baseline \
   --output .local/reloaded-submission.csv
 ```
 
-Use a fresh run directory for each training invocation. The reference configuration trains five models with shuffled KFold seed 1001, up to 10,000 boosting rounds and validation-only early stopping after 200 rounds. Threads are capped at six. Out-of-fold predictions cover each training applicant once; test predictions average the five saved models. Evaluation reloads each model, reconstructs its validation predictions and verifies artifact hashes.
+Use a fresh run directory for each training invocation. The default configuration trains five models with shuffled StratifiedKFold seed 1001, up to 10,000 boosting rounds and validation-only early stopping after 200 rounds. Threads are capped at six. Out-of-fold predictions cover each training applicant once; test predictions average the five saved models. Evaluation reloads each model, reconstructs its validation predictions and verifies artifact hashes.
+
+```bash
+.venv/bin/home-credit analyze --cache .local/cache --run-dir .local/stratified-baseline \
+  --output .local/analyses/stratified.json
+```
+
+The analyzer checks exact seeded assignments, coverage and label balance, then reports fold dispersion and covariate context. The historical KFold recipe remains `configs/reference.json`; use it with a separate new run directory to reproduce the recorded leaderboard benchmark. See [cross-validation](cross-validation.md).
 
 | Artifact | Purpose |
 |---|---|
@@ -65,14 +72,14 @@ For isolated runtime evaluation:
 docker build -f docker/Dockerfile --target runtime -t home-credit-runtime:0.1 .
 docker run --rm --network none --cpus 6 --memory 24g \
   -v "$PWD:/workspace:ro" home-credit-runtime:0.1 \
-  evaluate --cache /workspace/.local/cache --run-dir /workspace/.local/benchmark
+  evaluate --cache /workspace/.local/cache --run-dir /workspace/.local/stratified-baseline
 ```
 
 ## Existing tracking and storage services
 
 ```bash
 export MLFLOW_TRACKING_URI=http://127.0.0.1:5500
-.venv/bin/home-credit track --run-dir .local/benchmark
+.venv/bin/home-credit track --run-dir .local/stratified-baseline
 ```
 
 The client passes an isolated SQLite-backed MLflow test covering artifact upload/retrieval, repeated imports and conflict rejection. Run it with `uv sync --locked --group dev --group tracking --group tracking-test` and `.venv/bin/pytest -q`. The real benchmark was also imported into the shared experiment, reimported without duplication, and its first model retrieved with a matching SHA-256. Exact evidence is in [validation.json](validation.json).
