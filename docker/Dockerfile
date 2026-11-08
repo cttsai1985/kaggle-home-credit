@@ -1,0 +1,28 @@
+FROM ghcr.io/astral-sh/uv:0.9.24 AS uv
+FROM python:3.12-slim-bookworm AS runtime
+COPY --from=uv /uv /usr/local/bin/uv
+RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 && rm -rf /var/lib/apt/lists/*
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv UV_LINK_MODE=copy \
+    PATH=/opt/venv/bin:$PATH PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/workspace/src MPLCONFIGDIR=/tmp/matplotlib \
+    OMP_NUM_THREADS=6 OPENBLAS_NUM_THREADS=6
+WORKDIR /opt/home-credit
+COPY pyproject.toml uv.lock README.md LICENSE ./
+COPY src ./src
+RUN uv sync --locked --no-dev
+RUN useradd --create-home --uid 1000 researcher
+USER researcher
+WORKDIR /workspace
+ENTRYPOINT ["home-credit"]
+
+FROM runtime AS lab
+USER root
+WORKDIR /opt/home-credit
+RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
+RUN uv sync --locked --group dev --group lab --group data --group tracking --group tracking-test
+RUN chown -R researcher:researcher /opt/venv
+COPY docker/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
+USER researcher
+WORKDIR /workspace
+ENTRYPOINT ["jupyter", "lab"]
+CMD ["--config=/etc/jupyter/jupyter_server_config.py"]

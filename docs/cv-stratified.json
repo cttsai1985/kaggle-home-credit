@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "project_id": "home-credit",
+  "splitter": "StratifiedKFold",
+  "split_seed": 1001,
+  "folds": 5,
+  "assignment_sha256": "91a0f868e1e44622c2a14580bc1a973d3e7c4f0f0b128695cc572300290c6c77",
+  "assignment_repeatable": true,
+  "eligible_rows": 307507,
+  "oof_rows": 307507,
+  "oof_coverage": 1.0,
+  "id_overlap": 0,
+  "positive_rows": 24825,
+  "positive_rate": 0.08072986956394489,
+  "pooled_oof_roc_auc": 0.7925749500292526,
+  "fold_auc_mean": 0.7925757387254583,
+  "fold_auc_std": 0.0033772991222507927,
+  "fold_auc_min": 0.787840122736154,
+  "fold_auc_max": 0.7965282162629563,
+  "fold_metrics": [
+    {
+      "fold": 1,
+      "training_rows": 246005,
+      "validation_rows": 61502,
+      "positive_rows": 4965,
+      "negative_rows": 56537,
+      "positive_rate": 0.08072908198107379,
+      "positive_rate_delta_pp": -7.875828711007005e-05,
+      "roc_auc": 0.787840122736154,
+      "best_iteration": 1989,
+      "id_overlap": 0
+    },
+    {
+      "fold": 2,
+      "training_rows": 246005,
+      "validation_rows": 61502,
+      "positive_rows": 4965,
+      "negative_rows": 56537,
+      "positive_rate": 0.08072908198107379,
+      "positive_rate_delta_pp": -7.875828711007005e-05,
+      "roc_auc": 0.7929714058155574,
+      "best_iteration": 2175,
+      "id_overlap": 0
+    },
+    {
+      "fold": 3,
+      "training_rows": 246006,
+      "validation_rows": 61501,
+      "positive_rows": 4965,
+      "negative_rows": 56536,
+      "positive_rate": 0.08073039462772963,
+      "positive_rate_delta_pp": 5.250637847425965e-05,
+      "roc_auc": 0.7965282162629563,
+      "best_iteration": 2442,
+      "id_overlap": 0
+    },
+    {
+      "fold": 4,
+      "training_rows": 246006,
+      "validation_rows": 61501,
+      "positive_rows": 4965,
+      "negative_rows": 56536,
+      "positive_rate": 0.08073039462772963,
+      "positive_rate_delta_pp": 5.250637847425965e-05,
+      "roc_auc": 0.7946858303867841,
+      "best_iteration": 2825,
+      "id_overlap": 0
+    },
+    {
+      "fold": 5,
+      "training_rows": 246006,
+      "validation_rows": 61501,
+      "positive_rows": 4965,
+      "negative_rows": 56536,
+      "positive_rate": 0.08073039462772963,
+      "positive_rate_delta_pp": 5.250637847425965e-05,
+      "roc_auc": 0.7908531184258395,
+      "best_iteration": 2224,
+      "id_overlap": 0
+    }
+  ],
+  "weakest_fold": {
+    "fold": 1,
+    "training_rows": 246005,
+    "validation_rows": 61502,
+    "positive_rows": 4965,
+    "negative_rows": 56537,
+    "positive_rate": 0.08072908198107379,
+    "positive_rate_delta_pp": -7.875828711007005e-05,
+    "roc_auc": 0.787840122736154,
+    "best_iteration": 1989,
+    "id_overlap": 0
+  },
+  "covariate_distributions": {
+    "NEW_EXT_SOURCES_MEAN": {
+      "training": {
+        "rows": 307507,
+        "observed_rows": 307335,
+        "missing_fraction": 0.0005593368606242599,
+        "mean": 0.5092518925666809,
+        "median": 0.5245034694671631,
+        "p10": 0.303868842124939,
+        "p90": 0.6925191402435302
+      },
+      "test": {
+        "rows": 48744,
+        "observed_rows": 48737,
+        "missing_fraction": 0.00014360741834895663,
+        "mean": 0.5069698691368103,
+        "median": 0.5195716023445129,
+        "p10": 0.31720041632652285,
+        "p90": 0.6795846581459045
+      },
+      "validation_folds": {
+        "1": {
+          "rows": 61502,
+          "observed_rows": 61469,
+          "missing_fraction": 0.0005365679164904824,
+          "mean": 0.5083606243133545,
+          "median": 0.5237053036689758,
+          "p10": 0.3026492536067963,
+          "p90": 0.6923414945602417
+        },
+        "2": {
+          "rows": 61502,
+          "observed_rows": 61473,
+          "missing_fraction": 0.0004715293811583532,
+          "mean": 0.5105024576187134,
+          "median": 0.5255212187767029,
+          "p10": 0.3059695541858673,
+          "p90": 0.693288278579712
+        },
+        "3": {
+          "rows": 61501,
+          "observed_rows": 61471,
+          "missing_fraction": 0.0004877969463911169,
+          "mean": 0.5099458694458008,
+          "median": 0.5247722864151001,
+          "p10": 0.3070172369480133,
+          "p90": 0.691932201385498
+        },
+        "4": {
+          "rows": 61501,
+          "observed_rows": 61464,
+          "missing_fraction": 0.0006016162338823294,
+          "mean": 0.5085539817810059,
+          "median": 0.5241326689720154,
+          "p10": 0.3010547161102295,
+          "p90": 0.6927987813949585
+        },
+        "5": {
+          "rows": 61501,
+          "observed_rows": 61458,
+          "missing_fraction": 0.000699175623160575,
+          "mean": 0.5088963508605957,
+          "median": 0.5244804620742798,
+          "p10": 0.3021407812833786,
+          "p90": 0.6921258032321931
+        }
+      }
+    },
+    "NEW_CREDIT_TO_ANNUITY_RATIO": {
+      "training": {
+        "rows": 307507,
+        "observed_rows": 307495,
+        "missing_fraction": 3.902350190398973e-05,
+        "mean": 21.612342834472656,
+        "median": 20.0,
+        "p10": 10.516412734985352,
+        "p90": 34.0631217956543
+      },
+      "test": {
+        "rows": 48744,
+        "observed_rows": 48720,
+        "missing_fraction": 0.000492368291482026,
+        "mean": 17.17386817932129,
+        "median": 16.2771053314209,
+        "p10": 9.496676445007324,
+        "p90": 26.427072525024414
+      },
+      "validation_folds": {
+        "1": {
+          "rows": 61502,
+          "observed_rows": 61501,
+          "missing_fraction": 1.625963383300455e-05,
+          "mean": 21.637605667114258,
+          "median": 20.0,
+          "p10": 10.516412734985352,
+          "p90": 34.0631217956543
+        },
+        "2": {
+          "rows": 61502,
+          "observed_rows": 61499,
+          "missing_fraction": 4.877890149912467e-05,
+          "mean": 21.662033081054688,
+          "median": 20.0,
+          "p10": 10.531861305236816,
+          "p90": 34.0631217956543
+        },
+        "3": {
+          "rows": 61501,
+          "observed_rows": 61500,
+          "missing_fraction": 1.625989821307794e-05,
+          "mean": 21.59140968322754,
+          "median": 20.0,
+          "p10": 10.515100288391114,
+          "p90": 34.0618782043457
+        },
+        "4": {
+          "rows": 61501,
+          "observed_rows": 61498,
+          "missing_fraction": 4.8779694639122795e-05,
+          "mean": 21.595190048217773,
+          "median": 20.0,
+          "p10": 10.512371063232422,
+          "p90": 34.0618782043457
+        },
+        "5": {
+          "rows": 61501,
+          "observed_rows": 61497,
+          "missing_fraction": 6.503959285220073e-05,
+          "mean": 21.575475692749023,
+          "median": 20.0,
+          "p10": 10.513017082214356,
+          "p90": 34.0631217956543
+        }
+      }
+    },
+    "DAYS_BIRTH": {
+      "training": {
+        "rows": 307507,
+        "observed_rows": 307507,
+        "missing_fraction": 0.0,
+        "mean": -16037.027270923914,
+        "median": -15750.0,
+        "p10": -22181.0,
+        "p90": -10284.599999999977
+      },
+      "test": {
+        "rows": 48744,
+        "observed_rows": 48744,
+        "missing_fraction": 0.0,
+        "mean": -16068.084605284754,
+        "median": -15785.0,
+        "p10": -22215.7,
+        "p90": -10363.0
+      },
+      "validation_folds": {
+        "1": {
+          "rows": 61502,
+          "observed_rows": 61502,
+          "missing_fraction": 0.0,
+          "mean": -16033.121491984,
+          "median": -15747.5,
+          "p10": -22180.0,
+          "p90": -10269.0
+        },
+        "2": {
+          "rows": 61502,
+          "observed_rows": 61502,
+          "missing_fraction": 0.0,
+          "mean": -16032.413905238855,
+          "median": -15745.0,
+          "p10": -22162.0,
+          "p90": -10298.0
+        },
+        "3": {
+          "rows": 61501,
+          "observed_rows": 61501,
+          "missing_fraction": 0.0,
+          "mean": -16050.367473699614,
+          "median": -15767.0,
+          "p10": -22207.0,
+          "p90": -10290.0
+        },
+        "4": {
+          "rows": 61501,
+          "observed_rows": 61501,
+          "missing_fraction": 0.0,
+          "mean": -16022.506073071983,
+          "median": -15724.0,
+          "p10": -22163.0,
+          "p90": -10278.0
+        },
+        "5": {
+          "rows": 61501,
+          "observed_rows": 61501,
+          "missing_fraction": 0.0,
+          "mean": -16046.727549145542,
+          "median": -15764.0,
+          "p10": -22194.0,
+          "p90": -10287.0
+        }
+      }
+    }
+  },
+  "interpretation": "Fold dispersion is descriptive, not a confidence interval; folds share training data. Covariate summaries diagnose possible shifts without proving their cause. Feature construction retains the declared transductive boundary.",
+  "provenance": {
+    "model_manifest_sha256": "5957846ee82098eda8a8ddc89cf5f7b293973261cb4769bfee04912fe32e703a",
+    "oof_sha256": "8e7eb2e6b8ea74cf6f39af9396a06674c7bcb161012d5eb0e0172523c47bd1d2",
+    "cache_sha256": "812abaa2004cfa530d662d3fd7ffa996f9ee71b1ff22b36e0ab3d88963ed89d4",
+    "logical_run_id": "85c150c0-cb3a-4be4-8e3f-38ceabe59c66"
+  }
+}

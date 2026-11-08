@@ -1,0 +1,15 @@
+.git
+.venv
+.local
+.env
+.env.*
+legacy
+__pycache__
+.pytest_cache
+.ruff_cache
+data
+outputs
+dist
+kaggle-bundle
+*.zip
+*.parquet

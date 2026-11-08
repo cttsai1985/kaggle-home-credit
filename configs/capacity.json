@@ -1,0 +1,26 @@
+{
+  "name": "selected-features-capacity",
+  "folds": 5,
+  "stratified": false,
+  "split_seed": 1001,
+  "threads": 4,
+  "max_rounds": 10000,
+  "early_stopping_rounds": 200,
+  "parameters": {
+    "objective": "binary",
+    "boosting_type": "gbdt",
+    "learning_rate": 0.02,
+    "num_leaves": 31,
+    "feature_fraction": 0.9497036,
+    "bagging_fraction": 0.8715623,
+    "bagging_freq": 1,
+    "max_depth": 8,
+    "lambda_l1": 0.041545473,
+    "lambda_l2": 0.0735294,
+    "min_gain_to_split": 0.0222415,
+    "min_sum_hessian_in_leaf": 30,
+    "seed": 0,
+    "verbosity": -1,
+    "metric": "auc"
+  }
+}

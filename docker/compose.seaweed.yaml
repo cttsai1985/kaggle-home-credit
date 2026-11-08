@@ -1,0 +1,4 @@
+services:
+  lab:
+    volumes:
+      - ${SEAWEED_MOUNT:?Set an existing client-side mount}:/shared:ro
