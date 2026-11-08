@@ -34,20 +34,29 @@ def write_json(path: Path, value) -> None:
 
 
 def source_identity() -> dict:
-    root = Path(__file__).resolve().parents[2]
-    identity = subprocess.run(
-        ["git", "-C", str(root), "rev-parse", "HEAD"], capture_output=True, text=True
-    )
-    dirty = subprocess.run(
-        ["git", "-C", str(root), "status", "--porcelain"], capture_output=True, text=True
-    )
+    package = Path(__file__).resolve().parent
+    root = package.parent.parent
+    source_tree = package.parent.name == "src" and (root / "pyproject.toml").is_file()
+    commit, dirty = None, None
+    if source_tree:
+        identity = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "HEAD"], capture_output=True, text=True
+        )
+        state = subprocess.run(
+            ["git", "-C", str(root), "status", "--porcelain"], capture_output=True, text=True
+        )
+        if identity.returncode == 0:
+            commit = identity.stdout.strip()
+            dirty = bool(state.stdout.strip()) if state.returncode == 0 else None
     return {
         "legacy_commit": LEGACY_COMMIT,
-        "git_commit": identity.stdout.strip() if identity.returncode == 0 else None,
-        "git_dirty": bool(dirty.stdout.strip()),
+        "git_commit": commit,
+        "git_dirty": dirty,
+        "source_kind": "source-tree" if source_tree else "installed-package",
+        "package_version": importlib.metadata.version("home-credit-risk"),
         "source_files": {
-            str(p.relative_to(root)): sha256(p)
-            for p in sorted((root / "src").rglob("*"))
+            "src/home_credit/" + str(p.relative_to(package)): sha256(p)
+            for p in sorted(package.rglob("*"))
             if p.is_file() and p.suffix in {".py", ".json"}
         },
     }

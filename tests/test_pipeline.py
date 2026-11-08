@@ -83,3 +83,52 @@ def test_full_oof_coverage_reload_and_test_order(tmp_path):
     (run / "fold-1.txt").write_text("tampered")
     with pytest.raises(ValueError, match="checksum"):
         evaluate(cache, run)
+
+
+def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(tmp_path):
+    mlflow = pytest.importorskip("mlflow")
+    pytest.importorskip("sqlalchemy")
+    from home_credit.tracking import track
+
+    cache = tmp_path / "cache"
+    make_cache(cache)
+    run = tmp_path / "run"
+    config = json.loads(Path("configs/fixture.json").read_text())
+    fit_cv(cache, run, config)
+    original_uri = mlflow.get_tracking_uri()
+    uri = "sqlite:///" + str(tmp_path / "tracking.sqlite")
+    try:
+        mlflow.set_tracking_uri(uri)
+        client = mlflow.MlflowClient()
+        experiment = client.create_experiment(
+            "kaggle/home-credit-default-risk", artifact_location=(tmp_path / "artifacts").as_uri()
+        )
+        first = track(run, uri)
+        second = track(run, uri)
+        assert first["status"] == "imported" and second["status"] == "already_imported"
+        assert first["mlflow_run_id"] == second["mlflow_run_id"]
+        assert len(client.search_runs([experiment])) == 1
+        downloaded = client.download_artifacts(first["mlflow_run_id"], "fold-1.txt")
+        assert Path(downloaded).read_bytes() == (run / "fold-1.txt").read_bytes()
+        manifest_path = run / "manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        manifest["profile"] = "conflicting-profile"
+        write_json(manifest_path, manifest)
+        with pytest.raises(ValueError, match="Conflicting"):
+            track(run, uri)
+    finally:
+        mlflow.set_tracking_uri(original_uri)
+
+
+def test_installed_package_provenance_does_not_require_git(tmp_path, monkeypatch):
+    import home_credit.pipeline as pipeline
+
+    package = tmp_path / "site-packages" / "home_credit"
+    package.mkdir(parents=True)
+    source = package / "pipeline.py"
+    source.write_text("# installed source\n")
+    monkeypatch.setattr(pipeline, "__file__", str(source))
+    identity = pipeline.source_identity()
+    assert identity["source_kind"] == "installed-package"
+    assert identity["git_commit"] is None and identity["git_dirty"] is None
+    assert identity["source_files"] == {"src/home_credit/pipeline.py": sha256(source)}

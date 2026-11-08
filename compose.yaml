@@ -1,0 +1,26 @@
+services:
+  lab:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: lab
+    image: home-credit-lab:0.1
+    ports: ["127.0.0.1:8891:8888"]
+    cpus: 6.0
+    mem_limit: 24g
+    pids_limit: 256
+    environment:
+      HOME_CREDIT_DATA_DIR: /data
+      HOME_CREDIT_CACHE: /outputs/features
+      HOME_CREDIT_RUN_DIR: /outputs/benchmark
+      MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI:-}
+    volumes:
+      - .:/workspace
+      - ${HOME_CREDIT_DATA_DIR:?Set the absolute competition data directory}:/data:ro
+      - ./.local:/outputs
+    secrets: [jupyter_token]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+secrets:
+  jupyter_token:
+    file: ./.local/jupyter_token

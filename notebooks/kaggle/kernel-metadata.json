@@ -1,0 +1,18 @@
+{
+  "id": "cttsai/home-credit-modern-benchmark",
+  "title": "Home Credit modern benchmark",
+  "code_file": "rerun.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "competition_sources": [
+    "home-credit-default-risk"
+  ],
+  "dataset_sources": [
+    "cttsai/home-credit-risk-code"
+  ],
+  "kernel_sources": [],
+  "model_sources": []
+}
