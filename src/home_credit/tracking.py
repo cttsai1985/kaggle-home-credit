@@ -60,6 +60,7 @@ def track(run_dir: Path, tracking_uri: str) -> dict:
             raise ValueError("Conflicting or incomplete run import")
         return {"status": "already_imported", "mlflow_run_id": previous[0].info.run_id}
     source = manifest.get("source", {})
+    asset_source = manifest.get("execution", {}).get("code_asset", {}).get("source", {})
     tags = {
         "project_id": project_id,
         "run_kind": manifest.get(
@@ -71,8 +72,9 @@ def track(run_dir: Path, tracking_uri: str) -> dict:
         "logical_run_id": logical_id,
         "manifest_sha256": digest,
     }
-    if source.get("git_commit"):
-        tags["source_commit"] = source["git_commit"]
+    source_commit = source.get("git_commit") or asset_source.get("git_commit")
+    if source_commit:
+        tags["source_commit"] = source_commit
     if source.get("source_files"):
         tags["source_sha256"] = hashlib.sha256(
             json.dumps(source["source_files"], sort_keys=True).encode()

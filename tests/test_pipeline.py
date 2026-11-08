@@ -100,6 +100,9 @@ def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(tmp_path):
     # Completed older benchmark bundles do not have the new identity field.
     legacy_manifest = json.loads((run / "manifest.json").read_text())
     legacy_manifest.pop("project_id")
+    packaged_commit = legacy_manifest["source"]["git_commit"]
+    legacy_manifest["execution"] = {"code_asset": {"source": {"git_commit": packaged_commit}}}
+    legacy_manifest["source"]["git_commit"] = None
     write_json(run / "manifest.json", legacy_manifest)
     original_uri = mlflow.get_tracking_uri()
     uri = "sqlite:///" + str(tmp_path / "tracking.sqlite")
@@ -120,7 +123,8 @@ def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(tmp_path):
         imported = client.get_run(first["mlflow_run_id"])
         assert imported.data.tags["project_id"] == "home-credit"
         assert imported.data.tags["run_kind"] == "synthetic_fixture"
-        assert "source_commit" in imported.data.tags and "source_sha256" in imported.data.tags
+        assert imported.data.tags["source_commit"] == packaged_commit
+        assert "source_sha256" in imported.data.tags
         downloaded = client.download_artifacts(first["mlflow_run_id"], "fold-1.txt")
         assert Path(downloaded).read_bytes() == (run / "fold-1.txt").read_bytes()
         manifest_path = run / "manifest.json"
