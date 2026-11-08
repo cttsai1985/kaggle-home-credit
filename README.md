@@ -68,7 +68,7 @@ docker compose up --build -d lab
 
 Open http://127.0.0.1:8891/lab using the token in ignored `.local/jupyter_token`. Docker provides an isolated environment with read-only competition data and writable experiment outputs. A VS Code dev container uses the same image.
 
-Each run retains configuration, data and source fingerprints, fold assignments, portable model files, validation metrics and artifact checksums. An optional client imports completed runs into an existing MLflow server. Shared storage and service deployment remain external; an optional override exposes an existing SeaweedFS client mount. See [tracking and storage](docs/reproduction.md#existing-tracking-and-storage-services).
+Each run retains configuration, data and source fingerprints, fold assignments, portable model files, validation metrics and artifact checksums. The full real-data benchmark was imported into shared MLflow and its model artifact retrieved with a matching checksum; repeating the import reused the same run. The client requires the platform-provisioned `kaggle/home-credit` experiment and records project, logical-run and source identities. Shared storage and service deployment remain external; an optional override exposes an existing SeaweedFS client mount. See [tracking and storage](docs/reproduction.md#existing-tracking-and-storage-services).
 
 ## Kaggle execution
 

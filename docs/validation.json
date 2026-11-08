@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "project_id": "home-credit",
+  "verified_at_utc": "2026-11-08",
+  "scope": "Full real-data five-fold benchmark, independent reload, complete test predictions and shared tracking round-trip",
+  "reference_run_manifest": {
+    "schema_version": 1,
+    "logical_run_id": "0f5cba83-3c49-465a-bed5-f7829f88143d",
+    "status": "completed",
+    "profile": "selected-features-reference",
+    "source": {
+      "legacy_commit": "a378d5f",
+      "git_commit": "4b1f78d49a3aed454283e51239472067e4af08ab",
+      "git_dirty": false,
+      "source_files": {
+        "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+        "src/home_credit/cli.py": "335d86bc6ab87810a01ee09f2f07b49857d7198ee2385cac27a8c089dff33567",
+        "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+        "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+        "src/home_credit/pipeline.py": "089d3e401cd9717582de00467406ba96ab02fa552dbfff501646c45487d5a526",
+        "src/home_credit/tracking.py": "9cf77ac808fb947b812907f7c1f57b83643ad8c6222c89dca478d1c5ead28385"
+      }
+    },
+    "config": {
+      "name": "selected-features-reference",
+      "folds": 5,
+      "stratified": false,
+      "split_seed": 1001,
+      "threads": 6,
+      "max_rounds": 10000,
+      "early_stopping_rounds": 200,
+      "parameters": {
+        "objective": "binary",
+        "boosting_type": "gbdt",
+        "learning_rate": 0.02,
+        "num_leaves": 20,
+        "feature_fraction": 0.9497036,
+        "bagging_fraction": 0.8715623,
+        "bagging_freq": 1,
+        "max_depth": 8,
+        "lambda_l1": 0.041545473,
+        "lambda_l2": 0.0735294,
+        "min_gain_to_split": 0.0222415,
+        "min_sum_hessian_in_leaf": 60,
+        "seed": 0,
+        "verbosity": -1,
+        "metric": "auc"
+      }
+    },
+    "features": {
+      "schema_version": 1,
+      "recipe": "historical-selected",
+      "source": {
+        "legacy_commit": "a378d5f",
+        "git_commit": "a378d5fcee1895a6229c740779f64b286532de8c",
+        "git_dirty": true,
+        "source_files": {
+          "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+          "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+          "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+          "src/home_credit/pipeline.py": "92860ff39a8015887bbf27d664eca670d5f2b10842b5337f68972896b52408a7"
+        }
+      },
+      "rows": 356251,
+      "columns": 531,
+      "train_rows": 307507,
+      "test_rows": 48744,
+      "row_limit": null,
+      "feature_source_sha256": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+      "input_sha256": {
+        "HomeCredit_columns_description.csv": "eef7665398228a80f7367c9258220c5fbe1038f3f54094244f354d54e2d4fb03",
+        "POS_CASH_balance.csv": "0e13bc573ffa8fc29b3f00d975e557143193a405d675b0e4694b06fbdffcb0cd",
+        "application_test.csv": "a36161331d839150a67b6216d4de066f543a3b01a34061507d40e76612e0dec8",
+        "application_train.csv": "52e96b895b1112e1c853f670e58372719c8441c5ed1c57ac2f7fad559d784f5f",
+        "bureau.csv": "9d799143423f280720cf51c1bfbbab2a0422da8ff2763335bb30bf43155494f7",
+        "bureau_balance.csv": "33e09f06174c26f0be6b8b7398886c69e7bf0abbb29b4122f7841ffe545729a9",
+        "credit_card_balance.csv": "a9cdc48900d55131c90f3128b991859aeb94ca1326fb5f4d1624b9fd03782247",
+        "installments_payments.csv": "428c2e2496e4d6d697ee8270e98497e5213c41be16d882eed1bc95b133726797",
+        "previous_application.csv": "5046cd657ee04df2eaa6dc8308ae86be6b3b1763674a3f63574886a2f2896505",
+        "sample_submission.csv": "95258f8383ad9da4921120d695a12f2321ed7d0963507636f9f38ce0025633cb"
+      },
+      "cache_sha256": "812abaa2004cfa530d662d3fd7ffa996f9ee71b1ff22b36e0ab3d88963ed89d4",
+      "elapsed_seconds": 30.03039350700419
+    },
+    "environment": {
+      "python": "3.12.16",
+      "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.43",
+      "device": "cpu",
+      "packages": {
+        "numpy": "2.5.4",
+        "pandas": "3.1.1",
+        "lightgbm": "4.7.0",
+        "scikit-learn": "1.9.1",
+        "pyarrow": "24.0.0"
+      }
+    },
+    "elapsed_seconds": 1043.273139334,
+    "metrics": {
+      "oof_roc_auc": 0.7928089863847878,
+      "fold_auc_mean": 0.7928202006867913,
+      "train_rows": 307507,
+      "test_rows": 48744,
+      "features": 528
+    },
+    "artifacts": {
+      "config.json": "a5f4c2774cc8e68129e3cad2c83cd079ec64dc2941986e5090ffb33b819f0a71",
+      "features.json": "aaadc7d8e5c7849cf940f7274a78d82d6a7720077eb7feb5e470908115908aad",
+      "fold-1.txt": "036c72dcfd55415f7c7818dea15a5bd46c66f56306cf280ceacd58f8bd0bd63e",
+      "fold-2.txt": "b96708d6f84fd2245dd561ba936fddf027e942c4e8c0a14a23641893ed61a9dd",
+      "fold-3.txt": "0da5f7094ae12232430404b1170314b3f99e4632b2e5bfb2000e6b69b3fc967e",
+      "fold-4.txt": "92cc1fcc60173eafc1bc1380f6bf24eb1fef84e65d14dff0102c026950bc4c2f",
+      "fold-5.txt": "8a6488698e925272c02fdbf264d801bb6e710962b42afd2cdd9aaec9f3701ffa",
+      "fold-metrics.json": "297f26560e75c47b2ea8ae6d82bea6306ef2b14429ee9319c3564317ec89f141",
+      "importance.csv": "73669425e70b7c0a3d4c3106601c8829e55232e9d38de0e454726159c5decfda",
+      "metrics.json": "8d5c45a2d35808b4d98a1a42b70cbe915206e13aa14dc848e4dfb10b44d05095",
+      "oof.csv": "080de4321a0cb675314e88b4aea6541977e67a3cfb2dafdf8008ccef4a8f5b15",
+      "submission.csv": "9192529d5c79647bf12c0f32b57803c2cb3feffe67ed890ba8cfdc0ef8ca0f43"
+    }
+  },
+  "reference_manifest_sha256": "071244bf8d1e8a7c88487f9cc2a4938b507a8c5f9a158b50fcb09c07a11eaa4f",
+  "reference_metrics": {
+    "oof_roc_auc": 0.7928089863847878,
+    "fold_auc_mean": 0.7928202006867913,
+    "train_rows": 307507,
+    "test_rows": 48744,
+    "features": 528
+  },
+  "capacity_metrics": {
+    "oof_roc_auc": 0.7925536857207334,
+    "fold_auc_mean": 0.7925786163190729,
+    "train_rows": 307507,
+    "test_rows": 48744,
+    "features": 528
+  },
+  "capacity_source": {
+    "legacy_commit": "a378d5f",
+    "git_commit": "a5b88191f65cc003b3063cdb5719dbfee66d744f",
+    "git_dirty": true,
+    "source_files": {
+      "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+      "src/home_credit/cli.py": "335d86bc6ab87810a01ee09f2f07b49857d7198ee2385cac27a8c089dff33567",
+      "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+      "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+      "src/home_credit/pipeline.py": "089d3e401cd9717582de00467406ba96ab02fa552dbfff501646c45487d5a526",
+      "src/home_credit/tracking.py": "9cf77ac808fb947b812907f7c1f57b83643ad8c6222c89dca478d1c5ead28385"
+    }
+  },
+  "local_validation": {
+    "reload": {
+      "oof_roc_auc": 0.7928089863847878,
+      "rows": 307507,
+      "saved_predictions_match": true
+    },
+    "rows": 48744,
+    "file": ".local/scoring/home-credit-reference-9192529d5c79.csv",
+    "sha256": "9192529d5c79647bf12c0f32b57803c2cb3feffe67ed890ba8cfdc0ef8ca0f43"
+  },
+  "docker_checkpoint_reload": {
+    "oof_roc_auc": 0.7928089863847878,
+    "rows": 307507,
+    "saved_predictions_match": true
+  },
+  "container_image_id": "sha256:e0bc0aacc4186beb6bcd82d37940d4c71d3c64098536e9113bf5efc57c9715bb",
+  "lab_authentication": {
+    "lab_started": true,
+    "anonymous_rejected": true,
+    "authenticated_contents": true
+  },
+  "tests": {
+    "passed": 5,
+    "upstream_warning": "MLflow SQLAlchemy noload deprecation"
+  },
+  "ruff": "check and format passed",
+  "walkthrough": {
+    "executed_code_cells": 7,
+    "errors": 0,
+    "aggregate_figures": 3,
+    "visually_reviewed": true
+  },
+  "kaggle_scoring": {
+    "submission": {
+      "ref": 58137603,
+      "fileName": "home-credit-reference-9192529d5c79.csv",
+      "date": "2026-11-08T18:30:45.423000",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "0.79641",
+      "privateScore": "0.79065"
+    },
+    "submission_sha256": "9192529d5c79647bf12c0f32b57803c2cb3feffe67ed890ba8cfdc0ef8ca0f43",
+    "official_sample_id_order_match": true
+  },
+  "shared_mlflow": {
+    "project_id": "home-credit",
+    "tracking_uri": "http://127.0.0.1:5500",
+    "experiment_id": "6",
+    "experiment_name": "kaggle/home-credit",
+    "experiment_artifact_location": "mlflow-artifacts:/projects/home-credit",
+    "run_id": "cfc881e7401642638d17c2a754469568",
+    "logical_run_id": "0f5cba83-3c49-465a-bed5-f7829f88143d",
+    "run_kind": "real_data_model_run",
+    "status": "FINISHED",
+    "duplicate_import": "already_imported",
+    "downloaded_artifact": "fold-1.txt",
+    "downloaded_sha256": "036c72dcfd55415f7c7818dea15a5bd46c66f56306cf280ceacd58f8bd0bd63e",
+    "uploaded_source_commit": "4b1f78d49a3aed454283e51239472067e4af08ab",
+    "source_sha256": "24a5ac0d712115bbd8de6489165d8d7a0daa5deda26f20bef6d3804c495d6328",
+    "artifact_proxy_roundtrip_verified": true
+  },
+  "container_shared_connectivity": {
+    "network": "kaggle-quant-collections_ui",
+    "uri": "http://mlflow:5000",
+    "health_status": 200
+  },
+  "hosted_kaggle": {
+    "kernel": "cttsai/home-credit-modern-benchmark",
+    "version": 2,
+    "status": "running",
+    "code_asset": {
+      "wheel": "home_credit_risk-0.1.0-py3-none-any.whl",
+      "sha256": "fa339bb34e4913317aca075bda106802c0a1b6229e508908100a09561b4d1f0a",
+      "repository": "https://github.com/cttsai1985/kaggle-home-credit-solution-mlops",
+      "source": {
+        "legacy_commit": "a378d5f",
+        "git_commit": "864ee88824135c66592d5c7142096543aca68d98",
+        "git_dirty": false,
+        "source_kind": "source-tree",
+        "package_version": "0.1.0",
+        "source_files": {
+          "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+          "src/home_credit/cli.py": "335d86bc6ab87810a01ee09f2f07b49857d7198ee2385cac27a8c089dff33567",
+          "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+          "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+          "src/home_credit/pipeline.py": "5ad98e3252d4be9a467bbee52412ec2b5a59b37db34396d330699f44689cdd65",
+          "src/home_credit/tracking.py": "9cf77ac808fb947b812907f7c1f57b83643ad8c6222c89dca478d1c5ead28385"
+        }
+      }
+    },
+    "dataset_readiness_and_attached_source_checked": true,
+    "prior_failure": "Version 1 launched before code dataset readiness; read-back metadata showed dropped attachment. Fixed readiness gate before version 2."
+  },
+  "limits": [
+    "Historical final stack remains stronger than the selected baseline",
+    "Transductive unlabeled feature summaries are not a strict inductive production pipeline",
+    "Interactive VS Code dev-container session not exercised",
+    "No model registry promotion or Prefect deployment performed"
+  ]
+}

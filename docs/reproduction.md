@@ -75,7 +75,7 @@ export MLFLOW_TRACKING_URI=http://127.0.0.1:5500
 .venv/bin/home-credit track --run-dir .local/benchmark
 ```
 
-The client passes an isolated SQLite-backed MLflow test covering artifact upload/retrieval, repeated imports and conflict rejection. Run it with `uv sync --locked --group dev --group tracking --group tracking-test` and `.venv/bin/pytest -q`. Import into a shared deployment remains a separate verification.
+The client passes an isolated SQLite-backed MLflow test covering artifact upload/retrieval, repeated imports and conflict rejection. Run it with `uv sync --locked --group dev --group tracking --group tracking-test` and `.venv/bin/pytest -q`. The real benchmark was also imported into the shared experiment, reimported without duplication, and its first model retrieved with a matching SHA-256. Exact evidence is in [validation.json](validation.json).
 
 The current host route is port 5500; configure it for your deployment. A host-loopback binding cannot be reached simply through Docker's host gateway. For Lab, attach the platform client network as shown below and use `http://mlflow:5000`. Use runtime authentication, not credentials in the URI. The client requires a preprovisioned `kaggle/home-credit` experiment and fails with a bootstrap instruction when it is absent. It checks artifact hashes and logical run identity before import, rejects other project identities and refuses unexpected artifact names. The shared MLflow server owns its artifact-store route; SeaweedFS can remain behind that route. An optional client-side filesystem mount is separate:
 

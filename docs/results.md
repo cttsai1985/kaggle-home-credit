@@ -33,6 +33,8 @@ Feature construction took about **30 seconds** and reference five-fold training/
 - Independent checkpoint evaluation reconstructed all 307,507 OOF probabilities from the five model files and matched saved predictions.
 - All 48,744 test IDs and their order match the official sample; output probabilities are finite and bounded.
 - The teaching notebook executes against this real experiment and retains aggregate figures and model diagnostics.
+- The real benchmark was tracked in shared MLflow experiment `kaggle/home-credit` (ID 6), run `cfc881e7401642638d17c2a754469568`. Reimport was idempotent; a model artifact retrieved through the shared proxy matched its checksum.
+- Network-isolated Docker evaluation reconstructed the same complete OOF result, and Lab rejected anonymous content access while accepting its token.
 - Tests cover current string categories, payment aggregation, full OOF coverage, model reload, output identity, corrupted artifacts, installed-wheel provenance and isolated MLflow artifact import.
 
 The historical feature recipe includes unlabeled transductive summaries; it is not validated as a train-only preprocessing pipeline for future lending applications. Independent seeds, strict inductive preprocessing and point-in-time evaluation would answer additional generalization questions.
