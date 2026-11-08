@@ -44,7 +44,12 @@ def make_cache(path: Path):
     y = (x + rng.normal(0, 0.5, size=420) > 0).astype(float)
     y[360:] = np.nan
     frame = pd.DataFrame(
-        {"SK_ID_CURR": np.arange(420), "TARGET": y, "signal": x, "noise": rng.normal(size=420)}
+        {
+            "SK_ID_CURR": np.arange(420),
+            "TARGET": y,
+            "signal: value": x,
+            "noise": rng.normal(size=420),
+        }
     )
     frame.to_parquet(path / "selected.parquet", index=False)
     write_json(path / "manifest.json", {"cache_sha256": sha256(path / "selected.parquet")})
@@ -63,7 +68,7 @@ def test_full_oof_coverage_reload_and_test_order(tmp_path):
     oof = pd.read_csv(run / "oof.csv")
     assert oof.SK_ID_CURR.is_unique and len(oof) == 360
     assert oof.fold.value_counts().to_dict() == {1: 120, 2: 120, 3: 120}
-    assert json.loads((run / "features.json").read_text()) == ["signal", "noise"]
+    assert json.loads((run / "features.json").read_text()) == ["signal: value", "noise"]
     result = evaluate(cache, run)
     assert result["saved_predictions_match"]
     assert result["oof_roc_auc"] == manifest["metrics"]["oof_roc_auc"]

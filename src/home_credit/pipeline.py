@@ -138,8 +138,18 @@ def fit_cv(cache: Path, run_dir: Path, config: dict) -> dict:
         }
         for number, (fit, valid) in enumerate(splitter.split(x, y), start=1):
             assert not set(fit) & set(valid)
-            train_set = lgb.Dataset(x.iloc[fit], label=y[fit], free_raw_data=True)
-            valid_set = lgb.Dataset(x.iloc[valid], label=y[valid], reference=train_set)
+            train_set = lgb.Dataset(
+                x.iloc[fit],
+                label=y[fit],
+                free_raw_data=True,
+                feature_name=[f"feature_{i:04d}" for i in range(len(features))],
+            )
+            valid_set = lgb.Dataset(
+                x.iloc[valid],
+                label=y[valid],
+                reference=train_set,
+                feature_name=[f"feature_{i:04d}" for i in range(len(features))],
+            )
             booster = lgb.train(
                 params,
                 train_set,
