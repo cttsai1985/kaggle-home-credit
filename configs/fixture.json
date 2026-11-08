@@ -1,0 +1,27 @@
+{
+  "name": "fixture",
+  "folds": 3,
+  "stratified": true,
+  "split_seed": 1001,
+  "threads": 2,
+  "max_rounds": 40,
+  "early_stopping_rounds": 10,
+  "parameters": {
+    "objective": "binary",
+    "boosting_type": "gbdt",
+    "learning_rate": 0.1,
+    "num_leaves": 7,
+    "feature_fraction": 0.9497036,
+    "bagging_fraction": 0.8715623,
+    "bagging_freq": 1,
+    "max_depth": 8,
+    "lambda_l1": 0.041545473,
+    "lambda_l2": 0.0735294,
+    "min_gain_to_split": 0.0222415,
+    "min_sum_hessian_in_leaf": 0.01,
+    "seed": 0,
+    "verbosity": -1,
+    "metric": "auc",
+    "min_data_in_leaf": 5
+  }
+}

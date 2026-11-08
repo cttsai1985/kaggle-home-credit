@@ -1,0 +1,80 @@
+import json
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from home_credit.features import installments_payments, one_hot_encoder
+from home_credit.pipeline import evaluate, fit_cv, predict, sha256, validate_submission, write_json
+
+
+def test_string_categories_and_missing_values_are_encoded():
+    source = pd.DataFrame({"kind": pd.Series(["A", "B", None], dtype="str"), "amount": [1, 2, 3]})
+    encoded, categories = one_hot_encoder(source)
+    assert set(categories) == {"kind_A", "kind_B", "kind_nan"}
+    assert encoded.kind_nan.tolist() == [0, 0, 1]
+    assert encoded.amount.tolist() == [1, 2, 3]
+
+
+def test_installments_aggregate_before_join_and_clip_days(tmp_path):
+    pd.DataFrame(
+        {
+            "SK_ID_CURR": [10, 10, 20],
+            "SK_ID_PREV": [1, 1, 2],
+            "NUM_INSTALMENT_VERSION": [1, 1, 2],
+            "AMT_PAYMENT": [80.0, 100.0, 10.0],
+            "AMT_INSTALMENT": [100.0, 100.0, 10.0],
+            "DAYS_ENTRY_PAYMENT": [-8.0, -15.0, -5.0],
+            "DAYS_INSTALMENT": [-10.0, -10.0, -7.0],
+        }
+    ).to_csv(tmp_path / "installments_payments.csv", index=False)
+    result = installments_payments(tmp_path)
+    assert result.index.is_unique
+    assert result.loc[10, "INSTAL_COUNT"] == 2
+    assert result.loc[10, "INSTAL_DPD_SUM"] == 2
+    assert result.loc[10, "INSTAL_DBD_SUM"] == 5
+    assert result.loc[10, "INSTAL_PAYMENT_DIFF_SUM"] == 20
+
+
+def make_cache(path: Path):
+    path.mkdir()
+    rng = np.random.default_rng(42)
+    x = rng.normal(size=420)
+    y = (x + rng.normal(0, 0.5, size=420) > 0).astype(float)
+    y[360:] = np.nan
+    frame = pd.DataFrame(
+        {"SK_ID_CURR": np.arange(420), "TARGET": y, "signal": x, "noise": rng.normal(size=420)}
+    )
+    frame.to_parquet(path / "selected.parquet", index=False)
+    write_json(path / "manifest.json", {"cache_sha256": sha256(path / "selected.parquet")})
+    return frame
+
+
+def test_full_oof_coverage_reload_and_test_order(tmp_path):
+    cache = tmp_path / "cache"
+    frame = make_cache(cache)
+    config = json.loads(Path("configs/fixture.json").read_text())
+    run = tmp_path / "run"
+    manifest = fit_cv(cache, run, config)
+    assert manifest["status"] == "completed"
+    assert manifest["metrics"]["train_rows"] == 360
+    assert manifest["metrics"]["oof_roc_auc"] > 0.8
+    oof = pd.read_csv(run / "oof.csv")
+    assert oof.SK_ID_CURR.is_unique and len(oof) == 360
+    assert oof.fold.value_counts().to_dict() == {1: 120, 2: 120, 3: 120}
+    assert json.loads((run / "features.json").read_text()) == ["signal", "noise"]
+    result = evaluate(cache, run)
+    assert result["saved_predictions_match"]
+    assert result["oof_roc_auc"] == manifest["metrics"]["oof_roc_auc"]
+    output = tmp_path / "reloaded-submission.csv"
+    receipt = predict(cache, run, output)
+    assert receipt["rows"] == 60
+    submission = pd.read_csv(output)
+    validate_submission(submission, frame.loc[frame.TARGET.isna(), "SK_ID_CURR"])
+    np.testing.assert_allclose(submission.TARGET, pd.read_csv(run / "submission.csv").TARGET)
+    with pytest.raises(ValueError, match="ordering"):
+        validate_submission(submission.iloc[::-1], submission.SK_ID_CURR)
+    (run / "fold-1.txt").write_text("tampered")
+    with pytest.raises(ValueError, match="checksum"):
+        evaluate(cache, run)
