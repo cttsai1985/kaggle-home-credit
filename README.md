@@ -35,7 +35,9 @@ The competition metric is **ROC AUC**, where higher is better. Historical accoun
 | Final XGBoost stack | 0.79682 | 0.79237 |
 | Blend | 0.79764 | 0.79158 |
 
-Current experiment results and exact file identities are recorded in [the benchmark record](docs/results.md). Out-of-fold validation and leaderboard scores are reported separately; a local AUC is not a reproduced leaderboard score.
+The current full five-fold baseline reaches **0.79281 OOF AUC**, **0.79641 public AUC** and **0.79065 private AUC**. It improves the historical selected model's public score by 0.00070 and is 0.00010 lower on the private score; the historical final stack remains stronger. A higher-capacity comparison was weaker on OOF validation and was not selected for submission.
+
+Exact experiment settings and file identities are recorded in [the benchmark record](docs/results.md). Out-of-fold validation and leaderboard scores are reported separately; a local AUC is not a reproduced leaderboard score.
 
 ## Run the experiment
 
@@ -53,7 +55,7 @@ export HOME_CREDIT_DATA_DIR=/absolute/path/outside/git/home-credit
 .venv/bin/home-credit evaluate --cache .local/cache --run-dir .local/benchmark
 ```
 
-Download requires accepted Kaggle competition rules. Use a new directory for every feature preparation and training invocation. The locked environment targets CPU/Linux/Python 3.12; the reference configuration caps training at six threads.
+Download requires accepted Kaggle competition rules. Use a new directory for every feature preparation and training invocation. The local runtime uses CPU/Linux/Python 3.12; the package also supports the hosted Python 3.13 runtime; the reference configuration caps training at six threads.
 
 Open [the executed walkthrough](notebooks/01-credit-risk.ipynb) to inspect class imbalance, relational aggregation, fold performance, ROC curves, feature contributions and checkpoint reconstruction. The [runbook](docs/reproduction.md) covers prediction, artifacts and resource requirements.
 

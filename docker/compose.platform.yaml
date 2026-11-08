@@ -1,0 +1,9 @@
+services:
+  lab:
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    networks: [default, mlops_clients]
+networks:
+  mlops_clients:
+    external: true
+    name: ${MLOPS_DOCKER_NETWORK:-mlops-platform_clients}

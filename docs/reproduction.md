@@ -71,13 +71,13 @@ docker run --rm --network none --cpus 6 --memory 24g \
 ## Existing tracking and storage services
 
 ```bash
-export MLFLOW_TRACKING_URI=http://your-existing-tracker:5000
+export MLFLOW_TRACKING_URI=http://127.0.0.1:5500
 .venv/bin/home-credit track --run-dir .local/benchmark
 ```
 
 The client passes an isolated SQLite-backed MLflow test covering artifact upload/retrieval, repeated imports and conflict rejection. Run it with `uv sync --locked --group dev --group tracking --group tracking-test` and `.venv/bin/pytest -q`. Import into a shared deployment remains a separate verification.
 
-The address is an example. Use runtime authentication, not credentials in the URI. The client checks artifact hashes and logical run identity before import. The shared MLflow server owns its artifact-store route; SeaweedFS can remain behind that route. An optional client-side filesystem mount is separate:
+The current host route is port 5500; configure it for your deployment. A host-loopback binding cannot be reached simply through Docker's host gateway. For Lab, attach the platform client network as shown below and use `http://mlflow:5000`. Use runtime authentication, not credentials in the URI. The client requires a preprovisioned `kaggle/home-credit` experiment and fails with a bootstrap instruction when it is absent. It checks artifact hashes and logical run identity before import, rejects other project identities and refuses unexpected artifact names. The shared MLflow server owns its artifact-store route; SeaweedFS can remain behind that route. An optional client-side filesystem mount is separate:
 
 ```bash
 export SEAWEED_MOUNT=/absolute/path/to/existing/client-mount
@@ -85,3 +85,25 @@ docker compose -f compose.yaml -f docker/compose.seaweed.yaml up -d lab
 ```
 
 That exposes the existing mount read-only at `/shared`; it neither deploys SeaweedFS nor creates a FUSE mount. No shared services are started, upgraded or reconfigured by this repository. Prefect and W&B are not prerequisites for this experiment and are not implemented integrations.
+
+### Connect Lab to the existing client network
+
+```bash
+# Existing deployment adoption; do not create or reconfigure its networks.
+export MLOPS_DOCKER_NETWORK=kaggle-quant-collections_ui
+docker compose -f compose.yaml -f docker/compose.platform.yaml up -d lab
+```
+
+The override adds the existing client network alongside Lab's own network and sets `MLFLOW_TRACKING_URI=http://mlflow:5000`. Its default network name is `mlops-platform_clients` for the shared platform. It does not attach database or object-store administration networks. Use an actual reachable endpoint and verify connectivity before importing runs.
+
+### Shared platform identities
+
+| Resource | Identity |
+|---|---|
+| Project/run tag | `home-credit` |
+| MLflow experiment | `kaggle/home-credit` |
+| Reserved registered model | `kaggle-home-credit` |
+| Prefect flow/deployment contract | `kaggle-home-credit/local` |
+| Platform artifact proxy prefix | `mlflow-artifacts:/projects/home-credit` |
+
+The [shared MLOps platform](https://github.com/cttsai1985/mlops-platform) owns service provisioning, registry mappings and artifact-store configuration. The prefix above is a platform bootstrap contract; this project does not migrate an existing experiment or object store. Tracking uses runtime endpoint configuration and tags each import with project, logical run and available source identities. Older recorded benchmark manifests are accepted through the project's default identity without rewriting their source claims. Reserved registry/deployment names do not imply a promoted model or deployed Prefect flow.

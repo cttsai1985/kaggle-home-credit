@@ -63,6 +63,8 @@ def test_full_oof_coverage_reload_and_test_order(tmp_path):
     run = tmp_path / "run"
     manifest = fit_cv(cache, run, config)
     assert manifest["status"] == "completed"
+    assert manifest["project_id"] == "home-credit"
+    assert manifest["run_kind"] == "synthetic_fixture"
     assert manifest["metrics"]["train_rows"] == 360
     assert manifest["metrics"]["oof_roc_auc"] > 0.8
     oof = pd.read_csv(run / "oof.csv")
@@ -95,19 +97,30 @@ def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(tmp_path):
     run = tmp_path / "run"
     config = json.loads(Path("configs/fixture.json").read_text())
     fit_cv(cache, run, config)
+    # Completed older benchmark bundles do not have the new identity field.
+    legacy_manifest = json.loads((run / "manifest.json").read_text())
+    legacy_manifest.pop("project_id")
+    write_json(run / "manifest.json", legacy_manifest)
     original_uri = mlflow.get_tracking_uri()
     uri = "sqlite:///" + str(tmp_path / "tracking.sqlite")
     try:
         mlflow.set_tracking_uri(uri)
         client = mlflow.MlflowClient()
+        with pytest.raises(RuntimeError, match="bootstrap"):
+            track(run, uri)
+        assert client.get_experiment_by_name("kaggle/home-credit") is None
         experiment = client.create_experiment(
-            "kaggle/home-credit-default-risk", artifact_location=(tmp_path / "artifacts").as_uri()
+            "kaggle/home-credit", artifact_location=(tmp_path / "artifacts").as_uri()
         )
         first = track(run, uri)
         second = track(run, uri)
         assert first["status"] == "imported" and second["status"] == "already_imported"
         assert first["mlflow_run_id"] == second["mlflow_run_id"]
         assert len(client.search_runs([experiment])) == 1
+        imported = client.get_run(first["mlflow_run_id"])
+        assert imported.data.tags["project_id"] == "home-credit"
+        assert imported.data.tags["run_kind"] == "synthetic_fixture"
+        assert "source_commit" in imported.data.tags and "source_sha256" in imported.data.tags
         downloaded = client.download_artifacts(first["mlflow_run_id"], "fold-1.txt")
         assert Path(downloaded).read_bytes() == (run / "fold-1.txt").read_bytes()
         manifest_path = run / "manifest.json"
@@ -115,6 +128,15 @@ def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(tmp_path):
         manifest["profile"] = "conflicting-profile"
         write_json(manifest_path, manifest)
         with pytest.raises(ValueError, match="Conflicting"):
+            track(run, uri)
+        manifest["project_id"] = "another-project"
+        write_json(manifest_path, manifest)
+        with pytest.raises(ValueError, match="home-credit"):
+            track(run, uri)
+        manifest["project_id"] = "home-credit"
+        manifest["artifacts"]["unexpected.txt"] = "not-an-allowed-artifact"
+        write_json(manifest_path, manifest)
+        with pytest.raises(ValueError, match="Unexpected artifact"):
             track(run, uri)
     finally:
         mlflow.set_tracking_uri(original_uri)

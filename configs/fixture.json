@@ -23,5 +23,6 @@
     "verbosity": -1,
     "metric": "auc",
     "min_data_in_leaf": 5
-  }
+  },
+  "run_kind": "synthetic_fixture"
 }

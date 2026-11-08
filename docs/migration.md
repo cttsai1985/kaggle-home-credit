@@ -8,7 +8,7 @@ Application ratios and historical aggregates derive from the implementation cred
 
 The feature table is one row per `SK_ID_CURR`. Bureau balance aggregates by bureau account before applicant aggregation; all other child histories aggregate to applicant level before joining. Every join validates its many-to-one relationship and unchanged application row count. Missing history stays missing. Target values are never aggregated into features.
 
-The recipe retains its four-row `XNA` gender exclusion, binary/category encodings and fixed selected-feature list. Organization-income medians and category vocabularies are transductive summaries of the combined labeled/unlabeled application population. They contain no target values, but they are not a fold-fitted inductive preprocessing pipeline. The resulting validation answers the original competition setting; it does not validate a production lending system on future applicants.
+The recipe retains its four-row `XNA` gender exclusion, binary/category encodings and fixed selected-feature list. Organization-income medians and category vocabularies are transductive summaries of the combined labeled/unlabeled application population. They contain no target values, but they are not a fold-fitted inductive preprocessing pipeline. The resulting validation answers the original competition setting; it does not validate a production lending system on future applicants. A strict inductive variant would fit category vocabularies, organization medians and any imputers on each training fold only, freeze those transforms, enforce an observation-time cutoff and evaluate a temporal holdout.
 
 ## Current implementation choices
 

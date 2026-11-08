@@ -107,6 +107,8 @@ def fit_cv(cache: Path, run_dir: Path, config: dict) -> dict:
     started = time.monotonic()
     manifest = {
         "schema_version": 1,
+        "project_id": "home-credit",
+        "run_kind": config.get("run_kind", "real_data_model_run"),
         "logical_run_id": str(uuid.uuid4()),
         "status": "running",
         "profile": config["name"],
