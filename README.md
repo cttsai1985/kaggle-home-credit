@@ -90,4 +90,8 @@ The [hosted notebook](notebooks/kaggle/rerun.ipynb) runs the same package from a
 .venv/bin/pytest -q
 ```
 
-The maintained implementation lives in `src/home_credit`, training recipes in `configs`, notebooks in `notebooks`, and container configuration in `docker`. Data, feature caches, weights and credentials are excluded from Git. Code retains the [Apache 2.0 license](LICENSE); competition data follows its own terms.
+The maintained implementation lives in `src/home_credit`, training recipes in `configs`, notebooks in `notebooks`, and container configuration in `docker`. Data, feature caches, weights and credentials are excluded from Git.
+
+## License
+
+Source code is licensed under the [Apache License 2.0](LICENSE). Competition data follows its own terms.
