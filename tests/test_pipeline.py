@@ -154,3 +154,19 @@ def test_installed_package_provenance_does_not_require_git(tmp_path, monkeypatch
     assert identity["source_kind"] == "installed-package"
     assert identity["git_commit"] is None and identity["git_dirty"] is None
     assert identity["source_files"] == {"src/home_credit/pipeline.py": sha256(source)}
+
+
+def test_source_tree_without_git_keeps_package_hashes(tmp_path, monkeypatch):
+    import home_credit.pipeline as pipeline
+
+    package = tmp_path / "src" / "home_credit"
+    package.mkdir(parents=True)
+    (tmp_path / "pyproject.toml").write_text("# source project\n")
+    source = package / "pipeline.py"
+    source.write_text("# source bytes\n")
+    monkeypatch.setattr(pipeline, "__file__", str(source))
+    monkeypatch.setattr(pipeline.shutil, "which", lambda _: None)
+    identity = pipeline.source_identity()
+    assert identity["source_kind"] == "source-tree"
+    assert identity["git_commit"] is None and identity["git_dirty"] is None
+    assert identity["source_files"] == {"src/home_credit/pipeline.py": sha256(source)}

@@ -18,7 +18,9 @@ ENTRYPOINT ["home-credit"]
 FROM runtime AS lab
 USER root
 WORKDIR /opt/home-credit
-RUN uv sync --locked --no-dev --group lab --group data --group tracking
+RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
+RUN uv sync --locked --group dev --group lab --group data --group tracking --group tracking-test
+RUN chown -R researcher:researcher /opt/venv
 COPY docker/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
 USER researcher
 WORKDIR /workspace

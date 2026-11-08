@@ -1,9 +1,28 @@
 {
   "name": "Home Credit data science",
-  "build": {"dockerfile": "../docker/Dockerfile", "context": "..", "target": "lab"},
+  "build": {
+    "dockerfile": "../docker/Dockerfile",
+    "context": "..",
+    "target": "lab"
+  },
   "overrideCommand": true,
   "remoteUser": "researcher",
-  "containerEnv": {"HOME_CREDIT_DATA_DIR": "/data"},
-  "mounts": ["source=${localEnv:HOME_CREDIT_DATA_DIR},target=/data,type=bind,readonly"],
-  "customizations": {"vscode": {"extensions": ["ms-python.python", "ms-toolsai.jupyter"]}}
+  "containerEnv": {
+    "HOME_CREDIT_DATA_DIR": "/data"
+  },
+  "mounts": [
+    "source=${localEnv:HOME_CREDIT_DATA_DIR},target=/data,type=bind,readonly"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/venv/bin/python",
+        "python.terminal.activateEnvironment": false
+      }
+    }
+  }
 }

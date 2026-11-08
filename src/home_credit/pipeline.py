@@ -4,6 +4,7 @@ import hashlib
 import importlib.metadata
 import json
 import platform
+import shutil
 import subprocess
 import time
 import uuid
@@ -38,7 +39,7 @@ def source_identity() -> dict:
     root = package.parent.parent
     source_tree = package.parent.name == "src" and (root / "pyproject.toml").is_file()
     commit, dirty = None, None
-    if source_tree:
+    if source_tree and shutil.which("git"):
         identity = subprocess.run(
             ["git", "-C", str(root), "rev-parse", "HEAD"], capture_output=True, text=True
         )
