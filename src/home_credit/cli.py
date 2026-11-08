@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from home_credit.pipeline import evaluate, fit_cv, predict, prepare, sha256, write_json
+from home_credit.pipeline import analyze, evaluate, fit_cv, predict, prepare, sha256, write_json
 
 COMPETITION = "home-credit-default-risk"
 
@@ -96,12 +96,12 @@ def main():
     sub = commands.add_parser("train")
     sub.add_argument("--cache", type=Path, required=True)
     sub.add_argument("--run-dir", type=Path, required=True)
-    sub.add_argument("--config", type=Path, default=Path("configs/reference.json"))
-    for name in ["evaluate", "predict"]:
+    sub.add_argument("--config", type=Path, default=Path("configs/baseline.json"))
+    for name in ["evaluate", "predict", "analyze"]:
         sub = commands.add_parser(name)
         sub.add_argument("--cache", type=Path, required=True)
         sub.add_argument("--run-dir", type=Path, required=True)
-        if name == "predict":
+        if name in {"predict", "analyze"}:
             sub.add_argument("--output", type=Path, required=True)
     sub = commands.add_parser("track")
     sub.add_argument("--run-dir", type=Path, required=True)
@@ -121,6 +121,16 @@ def main():
         result = evaluate(args.cache, args.run_dir)
     elif args.command == "predict":
         result = predict(args.cache, args.run_dir, args.output)
+    elif args.command == "analyze":
+        report = analyze(args.cache, args.run_dir, args.output)
+        result = {
+            "output": str(args.output),
+            "splitter": report["splitter"],
+            "pooled_oof_roc_auc": report["pooled_oof_roc_auc"],
+            "fold_auc_std": report["fold_auc_std"],
+            "oof_coverage": report["oof_coverage"],
+            "id_overlap": report["id_overlap"],
+        }
     else:
         from home_credit.tracking import track
 

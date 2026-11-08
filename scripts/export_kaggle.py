@@ -27,7 +27,12 @@ with tempfile.TemporaryDirectory() as staging:
     }
 (assets / "source.json").write_text(json.dumps(receipt, indent=2) + "\n")
 shutil.copy2("LICENSE", assets / "LICENSE")
-shutil.copy2("configs/reference.json", assets / "reference.json")
+for name in ["baseline.json", "reference.json"]:
+    shutil.copy2(Path("configs") / name, assets / name)
+receipt["configuration_sha256"] = {
+    name: sha256(assets / name) for name in ["baseline.json", "reference.json"]
+}
+(assets / "source.json").write_text(json.dumps(receipt, indent=2) + "\n")
 (assets / "dataset-metadata.json").write_text(
     json.dumps(
         {

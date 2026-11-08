@@ -170,3 +170,64 @@ def test_source_tree_without_git_keeps_package_hashes(tmp_path, monkeypatch):
     assert identity["source_kind"] == "source-tree"
     assert identity["git_commit"] is None and identity["git_dirty"] is None
     assert identity["source_files"] == {"src/home_credit/pipeline.py": sha256(source)}
+
+
+def test_stratified_folds_are_repeatable_complete_and_label_balanced():
+    from home_credit.pipeline import fold_assignments
+
+    targets = np.array([0] * 90 + [1] * 10)
+    config = {"folds": 5, "stratified": True, "split_seed": 1001}
+    first = fold_assignments(targets, config)
+    np.testing.assert_array_equal(first, fold_assignments(targets, config))
+    assert set(first) == {1, 2, 3, 4, 5}
+    assert len(first) == 100
+    for fold in range(1, 6):
+        assert np.count_nonzero(first == fold) == 20
+        assert targets[first == fold].sum() == 2
+        assert not set(np.flatnonzero(first == fold)) & set(np.flatnonzero(first != fold))
+    with pytest.raises(ValueError, match="one applicant per fold"):
+        fold_assignments(np.array([0] * 90 + [1] * 4), config)
+
+
+def test_cv_report_recomputes_pooled_auc_dispersion_and_covariate_context():
+    from home_credit.pipeline import cv_report, fold_assignments
+
+    targets = np.array([0, 0, 1, 1])
+    config = {"folds": 2, "stratified": True, "split_seed": 1001}
+    assignments = fold_assignments(targets, config)
+    probabilities = np.where(
+        assignments == 1, np.where(targets == 1, 0.9, 0.1), np.where(targets == 1, 0.1, 0.9)
+    )
+    frame = pd.DataFrame(
+        {
+            "SK_ID_CURR": range(6),
+            "TARGET": [0, 0, 1, 1, np.nan, np.nan],
+            "signal": [0.1, 0.2, 0.8, 0.9, 1.0, 1.0],
+        }
+    )
+    oof = pd.DataFrame(
+        {
+            "SK_ID_CURR": range(4),
+            "TARGET": targets,
+            "probability": probabilities,
+            "fold": assignments,
+        }
+    )
+    report = cv_report(frame, oof, config, {1: 20, 2: 30})
+    assert report["pooled_oof_roc_auc"] == 0.5
+    assert report["fold_auc_mean"] == 0.5
+    assert report["fold_auc_std"] == pytest.approx(np.sqrt(0.5))
+    assert report["fold_auc_min"] == 0 and report["fold_auc_max"] == 1
+    assert report["weakest_fold"]["fold"] == 2
+    assert report["weakest_fold"]["best_iteration"] == 30
+    assert report["oof_coverage"] == 1 and report["id_overlap"] == 0
+    assert report["covariate_distributions"]["signal"]["training"]["mean"] == 0.5
+    assert report["covariate_distributions"]["signal"]["test"]["mean"] == 1.0
+    changed = oof.copy()
+    changed.loc[0, "fold"] = 3 - changed.loc[0, "fold"]
+    with pytest.raises(ValueError, match="configured split"):
+        cv_report(frame, changed, config)
+    duplicated = oof.copy()
+    duplicated.loc[0, "SK_ID_CURR"] = duplicated.loc[1, "SK_ID_CURR"]
+    with pytest.raises(ValueError, match="Duplicate"):
+        cv_report(frame, duplicated, config)
