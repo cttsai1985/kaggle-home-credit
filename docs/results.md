@@ -36,6 +36,8 @@ The full reference also completed on Kaggle: Python 3.13.18, Pandas 2.3.3 and Li
 
 The offline bundle was imported into shared MLflow experiment 6, run `3ab213afcc0d41a8afe3274fa301ff45`; repeat import was idempotent and a retrieved model matched its hash. The native stratified model and content-addressed CV report are tracked in run `d056184ce0a74f14a3433c7efd5c2d44`, with verified model and report read-back. See [hosted evidence](hosted-reference.json) and [validation](validation.json).
 
+The current stratified default also completed on Kaggle: OOF AUC **0.7926967788**, fold standard deviation **0.0032831133**, with **4,965 positives per fold**. Its exact assignment hash and declared split/model configuration match the native run; raw input hashes are identical. Native and hosted library versions differ, so model metrics are reported separately. The safely retrieved model and CV report passed independent identity/metric/checksum checks and shared-store read-back in run `f1bc56f893434ddc8506a2ebb67cc07c`. See [the completed hosted stratified receipt](hosted-stratified.json).
+
 ## Verification
 
 - Every eligible training applicant has exactly one held-out prediction and fold assignment.

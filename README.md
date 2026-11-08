@@ -80,7 +80,7 @@ Each run retains configuration, data and source fingerprints, fold assignments, 
 
 ## Kaggle execution
 
-The [hosted notebook](notebooks/kaggle/rerun.ipynb) runs the same package from an attached code wheel and retains a portable run bundle. [Kaggle delivery instructions](docs/kaggle.md) cover packaging, hosted-runtime requirements and scoring verified predictions.
+The [hosted notebook](notebooks/kaggle/rerun.ipynb) runs the same package from an attached code wheel and retains a portable run bundle. The full stratified hosted run completed with the same input and fold-assignment identities as native execution; its model and CV report passed shared-store import and checksum read-back. [Kaggle delivery instructions](docs/kaggle.md) cover packaging, hosted-runtime requirements and scoring verified predictions.
 
 ## Development
 
