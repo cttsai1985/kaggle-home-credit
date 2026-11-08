@@ -522,5 +522,22 @@
     "network": "kaggle-quant-collections_ui",
     "model_sha256": "0273b0cd0e8c5972b276c28c2341fe2aa963ddf07fc298b1b929bd1887aa9706",
     "matches_stratified_model": true
+  },
+  "ci": {
+    "python_matrix": [
+      "3.12",
+      "3.13"
+    ],
+    "verified_source_commit": "bbccac382e465bb8f6ddcac8a737dd33e801432f",
+    "push_run": 42516338361,
+    "pull_request_run": 42516343373,
+    "status": "all four matrix checks passed"
+  },
+  "devcontainer_component_check": {
+    "workspace_folder": "/workspace",
+    "workspace_mount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    "imported_source": "/workspace/src/home_credit/__init__.py",
+    "matches_editable_workspace": true,
+    "interactive_vscode_session": "not exercised"
   }
 }
