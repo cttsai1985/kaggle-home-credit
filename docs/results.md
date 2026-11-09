@@ -51,3 +51,19 @@ The current stratified default also completed on Kaggle: OOF AUC **0.7926967788*
 The historical feature recipe includes unlabeled transductive summaries; it is not validated as a train-only preprocessing pipeline for future lending applications. Independent seeds, strict inductive preprocessing and point-in-time evaluation would answer additional generalization questions.
 
 Hosted notebook execution and container checks are reported separately in the validation receipt; a successful local score does not establish the hosted runtime's behavior.
+
+## Leaderboard percentile context
+
+A score becomes easier to interpret when compared with other teams. The official **public** leaderboard export provides this reference population; the private leaderboard is not included in that download.
+
+| Submission | Public score | Score-equivalent position | Top share of reference teams | Strictly outperforms |
+|---|---:|---:|---:|---:|
+| Historical selected-feature LightGBM | 0.79571 | 2699 / 7,180 | 37.59% | 62.41% |
+| Historical final XGBoost stack | 0.79682 | 2272–2275 / 7,180 | 31.64% | 68.31% |
+| Recorded current KFold reference | 0.79641 | 2396 / 7,180 | 33.37% | 66.63% |
+
+Snapshot: **2026-11-09T00:02:26Z**, **7,180 unique scored teams** in the [official public leaderboard](https://www.kaggle.com/competitions/home-credit-default-risk/leaderboard?tab=public). Smaller top-share percentages and larger outperformed percentages are better.
+
+Position is `1 + teams with a strictly better displayed score`; equal scores share the starting position and the table retains the full tie interval. Top share is that starting position divided by the reference-team count. The outperformed percentile counts only strictly worse scores, so tied teams are excluded. Comparisons use the exported decimal scores without a tolerance.
+
+These are **score-equivalent placements**, not awarded final ranks for late submissions. The dated snapshot is the denominator; it may differ from competition-era participant counts. Public/private leaderboard populations and internal OOF/holdout populations are separate: no private or CV percentile is inferred. The [aggregate receipt](leaderboard-context.json) records source hashes, tie counts, formulas and scope.

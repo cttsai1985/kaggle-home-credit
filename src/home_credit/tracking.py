@@ -6,10 +6,11 @@ import uuid
 from pathlib import Path
 from urllib.parse import urlparse
 
-from home_credit.pipeline import sha256, write_json
+from home_credit.import_support import import_verified
+from home_credit.pipeline import sha256
 
 
-def track(run_dir: Path, tracking_uri: str) -> dict:
+def track(run_dir: Path, tracking_uri: str, *, resume: bool = False) -> dict:
     import mlflow
 
     if urlparse(tracking_uri).username:
@@ -47,18 +48,6 @@ def track(run_dir: Path, tracking_uri: str) -> dict:
             "before importing runs"
         )
     digest = sha256(run_dir / "manifest.json")
-    previous = mlflow.search_runs(
-        [experiment.experiment_id],
-        filter_string=f"tags.logical_run_id = '{logical_id}'",
-        output_format="list",
-    )
-    if previous:
-        if (
-            previous[0].info.status != "FINISHED"
-            or previous[0].data.tags.get("manifest_sha256") != digest
-        ):
-            raise ValueError("Conflicting or incomplete run import")
-        return {"status": "already_imported", "mlflow_run_id": previous[0].info.run_id}
     source = manifest.get("source", {})
     asset_source = manifest.get("execution", {}).get("code_asset", {}).get("source", {})
     tags = {
@@ -79,15 +68,17 @@ def track(run_dir: Path, tracking_uri: str) -> dict:
         tags["source_sha256"] = hashlib.sha256(
             json.dumps(source["source_files"], sort_keys=True).encode()
         ).hexdigest()
-    with mlflow.start_run(
-        experiment_id=experiment.experiment_id, run_name=manifest["profile"], tags=tags
-    ) as run:
-        config = manifest["config"]
-        mlflow.log_params({k: v for k, v in config.items() if k != "parameters"})
-        mlflow.log_params(config["parameters"])
-        mlflow.log_metrics(manifest["metrics"])
-        for name in [*manifest["artifacts"], "manifest.json"]:
-            mlflow.log_artifact(str(run_dir / name))
-        result = {"status": "imported", "mlflow_run_id": run.info.run_id}
-    write_json(run_dir / "tracking.json", result)
-    return result
+    config = manifest["config"]
+    return import_verified(
+        client,
+        experiment_id=experiment.experiment_id,
+        run_dir=run_dir,
+        logical_id=logical_id,
+        manifest_digest=digest,
+        artifacts={**manifest["artifacts"], "manifest.json": digest},
+        run_name=manifest["profile"],
+        tags=tags,
+        params={**{k: v for k, v in config.items() if k != "parameters"}, **config["parameters"]},
+        metrics=manifest["metrics"],
+        resume=resume,
+    )
