@@ -31,6 +31,12 @@ Artifact delivery has its own failure boundary. A successful local experiment re
 
 This solution uses shared tracking and storage services. Its responsibilities are data/model contracts, reproducible evaluation and verified batch outputs. [Consumer contract](docs/consumer-contract.md) · [Engineering boundaries](https://github.com/cttsai1985/ml-infrastructure/blob/main/docs/mlops-assessment.md) · [Original walkthrough](notebooks/01-credit-risk.ipynb).
 
+## Use the saved model
+
+The [model packaging and serving guide](docs/serving.md) explains the actual input/output contract, export from saved artifacts and the shared HTTP parity check. A canary release retains the tested source, dependency lock and aggregate verification evidence; private model weights and request rows are not release assets.
+
+[Real-model canary verification](docs/canary-validation.json) records the source, package/runtime identity, native-to-HTTP parity and rejected invalid request.
+
 ## Joining the data can change what the model learns
 
 The prediction unit is an applicant, while bureau and previous-application tables contain multiple records per applicant. On this input snapshot, directly left-joining those two histories would expand **307,507 applicants into 8,091,067 rows**. The same applicants would then receive unequal weights: positive prevalence changes from **8.07% per applicant to 8.87% per joined row** without adding a single applicant.
@@ -112,10 +118,6 @@ uv sync --locked --group dev --group serving --group tracking --group tracking-t
 ```
 
 The maintained implementation lives in `src/home_credit`, training recipes in `configs`, notebooks in `notebooks`, and container configuration in `docker`. Data, feature caches, weights and credentials are excluded from Git.
-
-## Use the saved model
-
-The [model packaging and serving guide](docs/serving.md) explains the actual input/output contract, export from saved artifacts and the shared HTTP parity check. A canary release retains the tested source, dependency lock and aggregate verification evidence; private model weights and request rows are not release assets.
 
 ## License
 

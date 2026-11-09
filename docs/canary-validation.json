@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "release": "v0.2.0-canary.1",
+  "package_version": "0.2.0.dev1",
+  "status": "verified_real_model_canary",
+  "adapter_source_commit": "2ba06781a6ea3a1e87d0203a94c9c2953e7e91d4",
+  "adapter_source_dirty_at_export": false,
+  "controller_source_commit": "f6d9fe64aeec6aec04edca3e368875a7a3b270fe",
+  "client_lock_sha256": "49681a48c487ca6b9b943a3140a81ba0eb4c99ce9a49db736202269d6f14488f",
+  "producer_manifest_sha256": "5957846ee82098eda8a8ddc89cf5f7b293973261cb4769bfee04912fe32e703a",
+  "model_training_repeated": false,
+  "quality_evaluation_reference": "results.md",
+  "validation_scope": "A small real-input inference parity and input-contract check; existing full-data evaluation remains separately recorded.",
+  "unit_tests_passed": 13,
+  "http_verification": {
+    "started_at": "2026-11-09T16:26:58.772183+00:00",
+    "finished_at": "2026-11-09T16:27:04.322941+00:00",
+    "engine": "MLflow Model Serving",
+    "model_package_sha256": "b5b8682243440d6834855e99f5d01e8634885c7e2131e70265b23bcb3c2cfbf3",
+    "controller_sha256": "c217c809003ea189485f127bbe305d57c2e0e6695335eb905156fdb49019fe5a",
+    "runtime": {
+      "python": "3.12.16",
+      "mlflow": "3.18.0"
+    },
+    "runtime_packages_sha256": "51356c5a4a663d15b2c24d202d435a6396f093e12561761cd755c83352ad3210",
+    "request_sha256": "1c5b031eed3d7b0a50a2ce12187bd2b66be5501c95c732923f9f761cdcab0642",
+    "expected_sha256": "fbe0973f2ffbb0c93ed77c612e75c38687bb214b80e49648658940775002b7ec",
+    "health_status": 200,
+    "parity": {
+      "numeric_values": 8,
+      "maximum_absolute_error": 0.0,
+      "atol": 1e-10,
+      "rtol": 0.0
+    },
+    "prediction_rows": 8,
+    "schema_rejection": {
+      "status": 400,
+      "scope": "client_supplied_invalid_request"
+    },
+    "prediction_parity": true,
+    "package_integrity_verified": true,
+    "cleanup_complete": true,
+    "declared_digest_checked": true,
+    "production_ingress_verified": false,
+    "container_image_verified": false,
+    "zero_downtime_claimed": false,
+    "shared_services_modified": false
+  },
+  "private_assets_published": false,
+  "input_boundary": "528 engineered application features; raw relational feature construction is outside this endpoint"
+}

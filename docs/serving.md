@@ -42,3 +42,7 @@ This canary is a tested prerelease, not a split of live customer traffic. Endpoi
 ## Feature assembly remains part of the solution
 
 This endpoint consumes engineered features, not raw application and credit-history tables. The existing feature pipeline must produce the same order and values before scoring. Canary parity does not validate a new prospective feature service or lending policy.
+
+## Verified canary
+
+[The aggregate receipt](canary-validation.json) records this release's real-model package, producing model identity, locked runtime fingerprint, native-reference comparison, invalid-request rejection and cleanup. The checked request sample is an interface/parity test; full model evaluation remains in [results](results.md).
