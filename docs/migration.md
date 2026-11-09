@@ -4,7 +4,7 @@ The original repository orchestrated feature caching, Bayesian hyperparameter se
 
 ## Features and attribution
 
-Application ratios and historical aggregates derive from the implementation credited to [Joao Aguiar](https://www.kaggle.com/jsaguiar/updated-0-792-lb-lightgbm-with-simple-features) and [Olivier Grellier](https://www.kaggle.com/ogrellier/lighgbm-with-selected-features). The original source and framework remain under `legacy/`; the baseline revision is [a378d5f](https://github.com/cttsai1985/kaggle-home-credit-solution-mlops/tree/a378d5f).
+Application ratios and historical aggregates derive from the implementation credited to [Joao Aguiar](https://www.kaggle.com/jsaguiar/updated-0-792-lb-lightgbm-with-simple-features) and [Olivier Grellier](https://www.kaggle.com/ogrellier/lighgbm-with-selected-features). The original source and framework remain under `legacy/`; the baseline revision is [a378d5f](https://github.com/cttsai1985/kaggle-home-credit/tree/a378d5f).
 
 The feature table is one row per `SK_ID_CURR`. Bureau balance aggregates by bureau account before applicant aggregation; all other child histories aggregate to applicant level before joining. Every join validates its many-to-one relationship and unchanged application row count. Missing history stays missing. Target values are never aggregated into features.
 
