@@ -11,18 +11,18 @@ For a lender, the next question is whether better risk differentiation improves 
 <!-- portfolio-results:start -->
 ## Results
 
-**Public leaderboard — ROC AUC ↑.**
+**Leaderboard scores — ROC AUC ↑.**
 
-| Model / submission | Public score | Public reference rank / teams | Top % | Reference ties |
-|---|---:|---:|---:|---:|
-| Historical selected-feature LightGBM | 0.79571 | 2,699 / 7,180 | **37.59%** | 1 |
-| Historical final XGBoost stack | 0.79682 | 2,272–2,275 / 7,180 | **31.64%** | 4 |
-| Recorded current KFold reference | 0.79641 | 2,396 / 7,180 | **33.37%** | 1 |
-| Historical blend | 0.79764 | 2,126–2,127 / 7,180 | **29.61%** | 2 |
+| Model / submission | Public LB | Private LB | Public Top % |
+|---|---:|---:|---:|
+| Historical selected-feature LightGBM | 0.79571 | 0.79075 | **37.59%** |
+| Historical final XGBoost stack | 0.79682 | 0.79237 | **31.64%** |
+| Recorded current KFold reference | 0.79641 | 0.79065 | **33.37%** |
+| Historical blend | 0.79764 | 0.79158 | **29.61%** |
 
-Reference: **2026-11-09T00:02:26Z**, **7,180 unique scored teams**. Ranks are score-equivalent comparisons with the dated public export, not awarded final ranks. Lower Top % is better. A zero tie count denotes an insertion position; ties occupy the shown interval.
+Public Top % uses the **2026-11-09 public leaderboard snapshot** (score-equivalent comparison, not an awarded final rank). [Detailed results](docs/results.md) · [Reference ranks, ties and calculation](docs/leaderboard-context.json).
 
-**OOF/holdout rank and Top %: not applicable. Private leaderboard rank and Top %: unavailable without a matching private reference population.** Internal validation and private scores remain separately reported in [detailed results](docs/results.md). [Reference data and calculation](docs/leaderboard-context.json).
+Private Top % is unavailable without a matched private leaderboard; OOF/holdout results have no leaderboard percentile.
 <!-- portfolio-results:end -->
 
 ## Where risk ranking breaks down
@@ -90,11 +90,14 @@ The recorded full KFold reference reaches **0.79281 OOF AUC**, **0.79641 public 
 
 Exact experiment settings and file identities are recorded in [the benchmark record](docs/results.md). Out-of-fold validation and leaderboard scores are reported separately; a local AUC is not a reproduced leaderboard score.
 
-The historical final stack's public AUC **0.79682** corresponds to approximately **top 31.6%** of the downloaded public leaderboard; the modern reference's **0.79641** corresponds to **top 33.4%**. [Percentile method and snapshot](docs/results.md#leaderboard-percentile-context). These are score-equivalent positions, separate from official late-entry ranks. AUC measures ranking, not classification accuracy.
-
 ## Run the experiment
 
-Install Python 3.12 and [uv](https://docs.astral.sh/uv/), then run from the repository root:
+Start with the [executed walkthrough](notebooks/01-credit-risk.ipynb) for the data, model decisions and measured results. The [reproduction guide](docs/reproduction.md) contains the complete download, training, evaluation and artifact recipe.
+
+Use Python 3.12 or 3.13, authorized competition inputs and a fresh run directory.
+
+<details>
+<summary>Command-line reproduction</summary>
 
 ```bash
 uv sync --locked --group dev --group lab --group data --group tracking
@@ -110,9 +113,7 @@ export HOME_CREDIT_DATA_DIR=/absolute/path/outside/git/home-credit
   --output .local/analyses/stratified.json
 ```
 
-Download requires accepted Kaggle competition rules. Use a new directory for every feature preparation and training invocation. The local runtime uses CPU/Linux/Python 3.12; the package also supports the hosted Python 3.13 runtime; the default configuration caps training at six threads.
-
-Open [the executed walkthrough](notebooks/01-credit-risk.ipynb) to inspect class imbalance, relational aggregation, fold performance, ROC curves, feature contributions and checkpoint reconstruction. The [runbook](docs/reproduction.md) covers prediction, artifacts and resource requirements.
+</details>
 
 ## JupyterLab and experiment tracking
 
