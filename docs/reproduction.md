@@ -114,3 +114,29 @@ The override adds the existing client network alongside Lab's own network and se
 | Platform artifact proxy prefix | `mlflow-artifacts:/projects/home-credit` |
 
 The [shared MLOps platform](https://github.com/cttsai1985/mlops-platform) owns service provisioning, registry mappings and artifact-store configuration. The prefix above is a platform bootstrap contract; this project does not migrate an existing experiment or object store. Tracking uses runtime endpoint configuration and tags each import with project, logical run and available source identities. Older recorded benchmark manifests are accepted through the project's default identity without rewriting their source claims. Reserved registry/deployment names do not imply a promoted model or deployed Prefect flow.
+
+## Recover an interrupted tracking import
+
+A tracker outage does not require retraining. The importer validates the unchanged local
+bundle, uploads it, and downloads every artifact to verify its SHA-256 before marking the
+MLflow run `FINISHED`. A normal repeat also verifies the remote bytes. This adds an artifact
+read-back cost, including the full model checkpoint.
+
+If an upload fails, `tracking.json` records its remote run ID and exception type;
+`tracking-events.jsonl` retains timestamped attempt transitions. Confirm that the previous
+importer has stopped, then explicitly recover the same bundle:
+
+```bash
+.venv/bin/home-credit track --run-dir .local/stratified-baseline --resume
+```
+
+Recovery reuses the original MLflow run ID and uploads the same immutable artifact paths;
+changed manifests and duplicate remote identities are rejected. `RUNNING` can mean a live
+writer or a crashed importer, so it is never resumed implicitly. This is a single-writer
+consumer contract, not a distributed lock. A supplied `PREFECT_FLOW_RUN_ID` links the import
+attempt to its orchestrator. Training manifests and checkpoints are not rewritten.
+
+The isolated SQLite integration tests inject a partial-upload interruption and corrupt
+read-back bytes, check that completion is blocked, then recover with the same run ID.
+These tests verify client behavior; they do not establish availability or recovery
+objectives for the shared infrastructure.

@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "project_id": "home-credit",
+  "metric": "roc_auc",
+  "higher_is_better": true,
+  "leaderboard": "public",
+  "verified_at_utc": "2026-11-09T00:04:04.260891+00:00",
+  "source": {
+    "kind": "official Kaggle CLI full leaderboard export",
+    "competition": "home-credit-default-risk",
+    "url": "https://www.kaggle.com/competitions/home-credit-default-risk/leaderboard?tab=public",
+    "command": "kaggle competitions leaderboard home-credit-default-risk --download --path .local/leaderboard-research --quiet",
+    "archive_filename": "home-credit-default-risk.zip",
+    "archive_sha256": "a549544b66c7e529a3dd2f09037c0787f06b112801646c9f75c265109caa244d",
+    "csv_filename": "home-credit-default-risk-publicleaderboard-2026-11-09T00:02:26.csv",
+    "csv_sha256": "3aaa945ffb10b26188bfd24c066153bfe625a253216a1fcb5877e697615e7049",
+    "export_snapshot_utc": "2026-11-09T00:02:26Z",
+    "reference_teams": 7180,
+    "unique_team_ids": 7180,
+    "all_scores_finite": true,
+    "score_order_verified": true
+  },
+  "method": {
+    "arithmetic": "Exact Decimal comparison of displayed scores; no floating-point tolerance.",
+    "position": "1 + number of reference teams with strictly better displayed score. Tied-position interval ends at better + max(equal, 1).",
+    "top_percent": "100 * score_equivalent_best_position / reference_teams; smaller is better. This rank-based descriptor can exceed 100 for a hypothetical score below every reference score.",
+    "percentile": "100 * strictly_worse / reference_teams; higher is better. Tied reference teams are excluded; weak percentile including ties is also retained.",
+    "denominator": "Unique scored teams present in this dated public export, not an assumed historical registration count.",
+    "scope": "Score-equivalent comparison with the downloaded public reference population. It is not an awarded final competition rank or percentile of late entrants. Public scores are compared only with public leaderboard scores."
+  },
+  "limitations": [
+    "The export contains the public leaderboard only. Private leaderboard percentiles are not inferred.",
+    "Displayed scores are rounded; tie counts and positions use exactly those rounded values.",
+    "Snapshots may omit deleted or otherwise unavailable historical teams and may differ from the competition-era participant count.",
+    "Internal OOF/holdout metrics have different populations and are never mapped to leaderboard percentiles.",
+    "Account-best leaderboard positions can come from other submissions; score context does not establish that the preserved source produced the account-best result."
+  ],
+  "scores": [
+    {
+      "id": "historical-lightgbm",
+      "label": "Historical selected-feature LightGBM",
+      "public_score": "0.79571",
+      "reference_teams": 7180,
+      "teams_with_strictly_better_score": 2698,
+      "teams_with_equal_displayed_score": 1,
+      "teams_with_strictly_worse_score": 4481,
+      "score_equivalent_best_position": 2699,
+      "score_equivalent_last_tied_position": 2699,
+      "top_percent_by_best_position": 37.590529247910865,
+      "strictly_outperformed_percent": 62.409470752089135,
+      "weak_percentile_including_ties": 62.42339832869081
+    },
+    {
+      "id": "historical-stack",
+      "label": "Historical final XGBoost stack",
+      "public_score": "0.79682",
+      "reference_teams": 7180,
+      "teams_with_strictly_better_score": 2271,
+      "teams_with_equal_displayed_score": 4,
+      "teams_with_strictly_worse_score": 4905,
+      "score_equivalent_best_position": 2272,
+      "score_equivalent_last_tied_position": 2275,
+      "top_percent_by_best_position": 31.643454038997213,
+      "strictly_outperformed_percent": 68.31476323119777,
+      "weak_percentile_including_ties": 68.37047353760445
+    },
+    {
+      "id": "modern-kfold-reference",
+      "label": "Recorded current KFold reference",
+      "public_score": "0.79641",
+      "reference_teams": 7180,
+      "teams_with_strictly_better_score": 2395,
+      "teams_with_equal_displayed_score": 1,
+      "teams_with_strictly_worse_score": 4784,
+      "score_equivalent_best_position": 2396,
+      "score_equivalent_last_tied_position": 2396,
+      "top_percent_by_best_position": 33.370473537604454,
+      "strictly_outperformed_percent": 66.62952646239555,
+      "weak_percentile_including_ties": 66.64345403899722
+    }
+  ]
+}

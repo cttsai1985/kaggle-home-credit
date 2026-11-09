@@ -87,7 +87,10 @@ def test_full_oof_coverage_reload_and_test_order(tmp_path):
         evaluate(cache, run)
 
 
-def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(tmp_path):
+@pytest.mark.parametrize("interrupt_upload", [False, True])
+def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(
+    tmp_path, monkeypatch, interrupt_upload
+):
     mlflow = pytest.importorskip("mlflow")
     pytest.importorskip("sqlalchemy")
     from home_credit.tracking import track
@@ -115,9 +118,44 @@ def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(tmp_path):
         experiment = client.create_experiment(
             "kaggle/home-credit", artifact_location=(tmp_path / "artifacts").as_uri()
         )
-        first = track(run, uri)
+        if interrupt_upload:
+            original_upload = mlflow.MlflowClient.log_artifact
+            calls = []
+
+            def interrupted(client, run_id, local_path, artifact_path=None):
+                calls.append(run_id)
+                original_upload(client, run_id, local_path, artifact_path)
+                if len(calls) == 2:
+                    raise ConnectionError("Injected connection loss after partial upload")
+
+            with monkeypatch.context() as fault:
+                fault.setattr(mlflow.MlflowClient, "log_artifact", interrupted)
+                with pytest.raises(ConnectionError, match="partial upload"):
+                    track(run, uri)
+            failed_id = calls[0]
+            assert client.get_run(failed_id).info.status == "FAILED"
+            receipt = json.loads((run / "tracking.json").read_text())
+            assert receipt["mlflow_run_id"] == failed_id
+            assert receipt["error_type"] == "ConnectionError"
+            assert receipt["status"] == "failed"
+            with pytest.raises(ValueError, match="--resume"):
+                track(run, uri)
+            # Stale RUNNING state also requires the explicit operator decision.
+            client.update_run(failed_id, status="RUNNING")
+            with pytest.raises(ValueError, match="--resume"):
+                track(run, uri)
+            first = track(run, uri, resume=True)
+            assert first["status"] == "resumed"
+            assert first["mlflow_run_id"] == failed_id
+            assert client.get_run(failed_id).info.status == "FINISHED"
+            assert client.get_run(failed_id).data.tags["artifact_verification"] == "verified"
+        else:
+            first = track(run, uri)
         second = track(run, uri)
-        assert first["status"] == "imported" and second["status"] == "already_imported"
+        assert (
+            first["status"] == ("resumed" if interrupt_upload else "imported")
+            and second["status"] == "already_imported"
+        )
         assert first["mlflow_run_id"] == second["mlflow_run_id"]
         assert len(client.search_runs([experiment])) == 1
         imported = client.get_run(first["mlflow_run_id"])

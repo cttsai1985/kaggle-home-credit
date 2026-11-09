@@ -1,0 +1,458 @@
+{
+  "schema_version": 1,
+  "project_id": "home-credit",
+  "status": "completed",
+  "study": "fixed-budget application-only versus selected relational features",
+  "source": {
+    "legacy_commit": "a378d5f",
+    "git_commit": "12070c5c9312e5adf40a31907ecd4b4da9655d24",
+    "git_dirty": true,
+    "source_kind": "source-tree",
+    "package_version": "0.1.0",
+    "source_files": {
+      "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+      "src/home_credit/cli.py": "ccdbda3aec0c49ab6ed233c44f761f453f6998037fa0e7bc306166cea16eda1f",
+      "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+      "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+      "src/home_credit/import_support.py": "0ed3a764ddb6ede9b68a25ae52cd350d47db120960c9dfd429f70b3b0027fc5b",
+      "src/home_credit/pipeline.py": "7cecc45cb6e67151d48ea784e2f122f4d39cf308d7ded23e4cb00275fe3d41e8",
+      "src/home_credit/tracking.py": "8829d66c72a5ed6ecde982303aee54ad62d1a990ebb6da7602c2c17e4ee28292"
+    }
+  },
+  "script_sha256": "3d35d3b2dbc31d4613c9da25f5821d6dbbadac73c518932a958bd3cd4ef75576",
+  "features": {
+    "schema_version": 1,
+    "recipe": "historical-selected",
+    "source": {
+      "legacy_commit": "a378d5f",
+      "git_commit": "a378d5fcee1895a6229c740779f64b286532de8c",
+      "git_dirty": true,
+      "source_files": {
+        "src/home_credit/__init__.py": "6851f560923996d7101a183158ebcaae99bde8f304967f3d4e8d8fafb6ec5d56",
+        "src/home_credit/feature_exclusions.json": "9d0491e4a7bc5a0c24554c1ce47d39294709b5cdb1a5a51be90a0c8778097b1b",
+        "src/home_credit/features.py": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+        "src/home_credit/pipeline.py": "92860ff39a8015887bbf27d664eca670d5f2b10842b5337f68972896b52408a7"
+      }
+    },
+    "rows": 356251,
+    "columns": 531,
+    "train_rows": 307507,
+    "test_rows": 48744,
+    "row_limit": null,
+    "feature_source_sha256": "b5912cbee368a5020f3b78554a412ec4f032d96835cdf15c81139a90a5a03560",
+    "input_sha256": {
+      "HomeCredit_columns_description.csv": "eef7665398228a80f7367c9258220c5fbe1038f3f54094244f354d54e2d4fb03",
+      "POS_CASH_balance.csv": "0e13bc573ffa8fc29b3f00d975e557143193a405d675b0e4694b06fbdffcb0cd",
+      "application_test.csv": "a36161331d839150a67b6216d4de066f543a3b01a34061507d40e76612e0dec8",
+      "application_train.csv": "52e96b895b1112e1c853f670e58372719c8441c5ed1c57ac2f7fad559d784f5f",
+      "bureau.csv": "9d799143423f280720cf51c1bfbbab2a0422da8ff2763335bb30bf43155494f7",
+      "bureau_balance.csv": "33e09f06174c26f0be6b8b7398886c69e7bf0abbb29b4122f7841ffe545729a9",
+      "credit_card_balance.csv": "a9cdc48900d55131c90f3128b991859aeb94ca1326fb5f4d1624b9fd03782247",
+      "installments_payments.csv": "428c2e2496e4d6d697ee8270e98497e5213c41be16d882eed1bc95b133726797",
+      "previous_application.csv": "5046cd657ee04df2eaa6dc8308ae86be6b3b1763674a3f63574886a2f2896505",
+      "sample_submission.csv": "95258f8383ad9da4921120d695a12f2321ed7d0963507636f9f38ce0025633cb"
+    },
+    "cache_sha256": "812abaa2004cfa530d662d3fd7ffa996f9ee71b1ff22b36e0ab3d88963ed89d4",
+    "elapsed_seconds": 30.03039350700419
+  },
+  "assignment_sha256": "91a0f868e1e44622c2a14580bc1a973d3e7c4f0f0b128695cc572300290c6c77",
+  "rows": 307507,
+  "positive_rows": 24825,
+  "config": {
+    "name": "stratified-baseline",
+    "folds": 5,
+    "stratified": true,
+    "split_seed": 1001,
+    "threads": 4,
+    "max_rounds": 100,
+    "early_stopping_rounds": null,
+    "parameters": {
+      "objective": "binary",
+      "boosting_type": "gbdt",
+      "learning_rate": 0.02,
+      "num_leaves": 20,
+      "feature_fraction": 0.9497036,
+      "bagging_fraction": 0.8715623,
+      "bagging_freq": 1,
+      "max_depth": 8,
+      "lambda_l1": 0.041545473,
+      "lambda_l2": 0.0735294,
+      "min_gain_to_split": 0.0222415,
+      "min_sum_hessian_in_leaf": 60,
+      "seed": 0,
+      "verbosity": -1,
+      "metric": "auc"
+    }
+  },
+  "model_seeds": [
+    0,
+    1
+  ],
+  "feature_counts": {
+    "application_only": 129,
+    "application_plus_relational": 528
+  },
+  "feature_group_sha256": "ce1004f8084a1591ee96fea3fec2c65e5030d026c6ab4db1b26810ed36a3934e",
+  "environment": {
+    "python": "3.12.16",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "lightgbm": "4.7.0",
+    "scikit-learn": "1.9.1",
+    "pyarrow": "24.0.0"
+  },
+  "interpretation": {
+    "controlled_change": "Only selected relational feature inclusion changes within each seed. All eligible rows, fold assignments, LightGBM parameters and fixed 100-round budget are matched. No early stopping or scored test data.",
+    "variance": "Two predeclared model seeds on identical folds measure descriptive training-seed sensitivity, not a confidence interval.",
+    "scope": "Bounded fixed-budget ablation, not the full early-stopped benchmark. The inherited cache includes unlabeled transductive summaries; this does not establish prospective train-only credit validation."
+  },
+  "runs": [
+    {
+      "model_seed": 0,
+      "variant": "application_only",
+      "features": 129,
+      "pooled_oof_roc_auc": 0.7462784243883255,
+      "fold_mean": 0.7463547239361621,
+      "fold_sample_sd": 0.004937920286467718,
+      "folds": [
+        {
+          "fold": 1,
+          "validation_rows": 61502,
+          "validation_positives": 4965,
+          "roc_auc": 0.7383227029128195,
+          "iterations": 100,
+          "model_sha256": "680d6e7d60debe2cb3eb01bfc6d22a66876274496c29581c416a95d01f5adb54"
+        },
+        {
+          "fold": 2,
+          "validation_rows": 61502,
+          "validation_positives": 4965,
+          "roc_auc": 0.7448709140576355,
+          "iterations": 100,
+          "model_sha256": "757726b20e68eadecbc39cf782e7fe119d166348e1fa21bfd5b5bc62f2d55eba"
+        },
+        {
+          "fold": 3,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7497663761656344,
+          "iterations": 100,
+          "model_sha256": "f57fc97f4a83b641ac67da06153fa30d30bac53af866eecf115531770142bb91"
+        },
+        {
+          "fold": 4,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7499299308403482,
+          "iterations": 100,
+          "model_sha256": "973a5f4673e3a79e611b1cb27f6c87d1cdbc1df72c57877b8ed2f186a574393a"
+        },
+        {
+          "fold": 5,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7488836957043724,
+          "iterations": 100,
+          "model_sha256": "61875d779f4a7cd9bb7ca8b13c6c794ce4a3ddd149c6325bfb1a5adea7c56183"
+        }
+      ],
+      "oof_sha256": "1f85982764b3163b610cb5c1f09d3e883ef592d885b6799936b84d824e64deb3",
+      "parameters": {
+        "objective": "binary",
+        "boosting_type": "gbdt",
+        "learning_rate": 0.02,
+        "num_leaves": 20,
+        "feature_fraction": 0.9497036,
+        "bagging_fraction": 0.8715623,
+        "bagging_freq": 1,
+        "max_depth": 8,
+        "lambda_l1": 0.041545473,
+        "lambda_l2": 0.0735294,
+        "min_gain_to_split": 0.0222415,
+        "min_sum_hessian_in_leaf": 60,
+        "seed": 0,
+        "verbosity": -1,
+        "metric": "auc",
+        "bagging_seed": 0,
+        "feature_fraction_seed": 0,
+        "data_random_seed": 0,
+        "num_threads": 4,
+        "deterministic": true,
+        "force_col_wise": true
+      },
+      "elapsed_seconds": 25.105808298998454
+    },
+    {
+      "model_seed": 0,
+      "variant": "application_plus_relational",
+      "features": 528,
+      "pooled_oof_roc_auc": 0.7553761639347886,
+      "fold_mean": 0.7554529171586725,
+      "fold_sample_sd": 0.004080742104340799,
+      "folds": [
+        {
+          "fold": 1,
+          "validation_rows": 61502,
+          "validation_positives": 4965,
+          "roc_auc": 0.7486091499117379,
+          "iterations": 100,
+          "model_sha256": "816d23f8985d85dda793fea5bbed550cdcdb385a54831ec6acfa8f3562b49f47"
+        },
+        {
+          "fold": 2,
+          "validation_rows": 61502,
+          "validation_positives": 4965,
+          "roc_auc": 0.7548067043975747,
+          "iterations": 100,
+          "model_sha256": "5305980fb178be5e378527112884e28d7d5f631015d6a80bf8f651ffcd1e1357"
+        },
+        {
+          "fold": 3,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7580795599620436,
+          "iterations": 100,
+          "model_sha256": "1a20917d7153125a780ec21274a189b63e1dcf22c45f5573c142c14b5a5507a4"
+        },
+        {
+          "fold": 4,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7584457482268336,
+          "iterations": 100,
+          "model_sha256": "887c0e4cd2898c7406121f2d98342e9d6674410df8f4599d95828c0d780fdecd"
+        },
+        {
+          "fold": 5,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7573234232951732,
+          "iterations": 100,
+          "model_sha256": "ebec551683b230b3be027daeec7515a8007a881d5808c4c5ac6efe05b61a5365"
+        }
+      ],
+      "oof_sha256": "216d5f4ec56b1e2e6ae80206d667c5864e0bbb46dc5ba911702bbeb9c63d91fb",
+      "parameters": {
+        "objective": "binary",
+        "boosting_type": "gbdt",
+        "learning_rate": 0.02,
+        "num_leaves": 20,
+        "feature_fraction": 0.9497036,
+        "bagging_fraction": 0.8715623,
+        "bagging_freq": 1,
+        "max_depth": 8,
+        "lambda_l1": 0.041545473,
+        "lambda_l2": 0.0735294,
+        "min_gain_to_split": 0.0222415,
+        "min_sum_hessian_in_leaf": 60,
+        "seed": 0,
+        "verbosity": -1,
+        "metric": "auc",
+        "bagging_seed": 0,
+        "feature_fraction_seed": 0,
+        "data_random_seed": 0,
+        "num_threads": 4,
+        "deterministic": true,
+        "force_col_wise": true
+      },
+      "elapsed_seconds": 109.66375773400068
+    },
+    {
+      "model_seed": 1,
+      "variant": "application_only",
+      "features": 129,
+      "pooled_oof_roc_auc": 0.7463909643845703,
+      "fold_mean": 0.7464622506405041,
+      "fold_sample_sd": 0.004810040761141589,
+      "folds": [
+        {
+          "fold": 1,
+          "validation_rows": 61502,
+          "validation_positives": 4965,
+          "roc_auc": 0.7385224758391074,
+          "iterations": 100,
+          "model_sha256": "b1cf2068ac5ba96dc7992bde04c3d044fe1cae8a1c55f19d4e12cdce75eea4c2"
+        },
+        {
+          "fold": 2,
+          "validation_rows": 61502,
+          "validation_positives": 4965,
+          "roc_auc": 0.7452962751571522,
+          "iterations": 100,
+          "model_sha256": "1ffdbdbfb6f7f7fba62b29b34981825dc5254af8bf0527ffa5e1e55878318f6b"
+        },
+        {
+          "fold": 3,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7496823116990863,
+          "iterations": 100,
+          "model_sha256": "79f4b3498ad996d18302b72adfab8389270f7113f2d7455d211be138aab76809"
+        },
+        {
+          "fold": 4,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7498831034732871,
+          "iterations": 100,
+          "model_sha256": "94d968d3c2d7710e8083ef8007db2704e385005b799a7eb17f307be329a73c1e"
+        },
+        {
+          "fold": 5,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.748927087033887,
+          "iterations": 100,
+          "model_sha256": "cdcb0b6f05978fb5443588921bc120e39c0d485aa5e6a15bfd12cc6acce88f45"
+        }
+      ],
+      "oof_sha256": "36aa957d100ed4ca7e415bccdbe206f897b2e60b387d983b8c537a5b18b52eaa",
+      "parameters": {
+        "objective": "binary",
+        "boosting_type": "gbdt",
+        "learning_rate": 0.02,
+        "num_leaves": 20,
+        "feature_fraction": 0.9497036,
+        "bagging_fraction": 0.8715623,
+        "bagging_freq": 1,
+        "max_depth": 8,
+        "lambda_l1": 0.041545473,
+        "lambda_l2": 0.0735294,
+        "min_gain_to_split": 0.0222415,
+        "min_sum_hessian_in_leaf": 60,
+        "seed": 1,
+        "verbosity": -1,
+        "metric": "auc",
+        "bagging_seed": 1,
+        "feature_fraction_seed": 1,
+        "data_random_seed": 1,
+        "num_threads": 4,
+        "deterministic": true,
+        "force_col_wise": true
+      },
+      "elapsed_seconds": 25.765544531997875
+    },
+    {
+      "model_seed": 1,
+      "variant": "application_plus_relational",
+      "features": 528,
+      "pooled_oof_roc_auc": 0.7550254795432954,
+      "fold_mean": 0.7551073886543627,
+      "fold_sample_sd": 0.0038604820002137406,
+      "folds": [
+        {
+          "fold": 1,
+          "validation_rows": 61502,
+          "validation_positives": 4965,
+          "roc_auc": 0.7486218108359948,
+          "iterations": 100,
+          "model_sha256": "9f5c61cdcde4d3e5a89a02b17abe0738edc5fad6dc8207ff7917af32c9f09051"
+        },
+        {
+          "fold": 2,
+          "validation_rows": 61502,
+          "validation_positives": 4965,
+          "roc_auc": 0.7544714000889293,
+          "iterations": 100,
+          "model_sha256": "0b35946a9eaa79493c1f48cb734adf00886d72816135df547fa365cb9866a911"
+        },
+        {
+          "fold": 3,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.757497294988793,
+          "iterations": 100,
+          "model_sha256": "fcc82f133c8331b9259083aa142945f801f84d6ee945de383d2596426a21cc5b"
+        },
+        {
+          "fold": 4,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.7578197214233894,
+          "iterations": 100,
+          "model_sha256": "dc0a13e66071e837e7970fb26448f45a379a93b76b3cb80ee4cba6b7b52b1cec"
+        },
+        {
+          "fold": 5,
+          "validation_rows": 61501,
+          "validation_positives": 4965,
+          "roc_auc": 0.757126715934707,
+          "iterations": 100,
+          "model_sha256": "01828d2ce977a2fe2e6e6fb8484d6f9ab21a712e2594211ff669421e3e3960b2"
+        }
+      ],
+      "oof_sha256": "c31586e81c50b818e4c9f3cbd2795e922fffcaa55e811ed01c5c2df1dd33689f",
+      "parameters": {
+        "objective": "binary",
+        "boosting_type": "gbdt",
+        "learning_rate": 0.02,
+        "num_leaves": 20,
+        "feature_fraction": 0.9497036,
+        "bagging_fraction": 0.8715623,
+        "bagging_freq": 1,
+        "max_depth": 8,
+        "lambda_l1": 0.041545473,
+        "lambda_l2": 0.0735294,
+        "min_gain_to_split": 0.0222415,
+        "min_sum_hessian_in_leaf": 60,
+        "seed": 1,
+        "verbosity": -1,
+        "metric": "auc",
+        "bagging_seed": 1,
+        "feature_fraction_seed": 1,
+        "data_random_seed": 1,
+        "num_threads": 4,
+        "deterministic": true,
+        "force_col_wise": true
+      },
+      "elapsed_seconds": 101.44902117600577
+    }
+  ],
+  "summaries": {
+    "application_only": {
+      "mean": 0.746334694386448,
+      "sample_sd": 7.957779449942892e-05,
+      "min": 0.7462784243883255,
+      "max": 0.7463909643845703,
+      "seeds": 2
+    },
+    "application_plus_relational": {
+      "mean": 0.755200821739042,
+      "sample_sd": 0.0002479713112811316,
+      "min": 0.7550254795432954,
+      "max": 0.7553761639347886,
+      "seeds": 2
+    }
+  },
+  "paired_deltas": [
+    {
+      "model_seed": 0,
+      "add_relational_auc_delta": 0.00909773954646309
+    },
+    {
+      "model_seed": 1,
+      "add_relational_auc_delta": 0.008634515158725042
+    }
+  ],
+  "elapsed_seconds": 263.96256321099645,
+  "independent_verification": {
+    "oof_files_reloaded": 4,
+    "maximum_metric_delta": 0.0,
+    "models_reloaded": 20,
+    "maximum_prediction_delta": 0.0,
+    "tolerance": 1e-12,
+    "input_script_artifact_hashes_verified": true,
+    "full_id_order_and_coverage_verified": true,
+    "fold_assignment_identical_for_all_variants_and_seeds": true,
+    "retained_stratified_baseline_assignments_match": true,
+    "raw_application_input_hashes_match_cache": true
+  },
+  "notebook_verification": {
+    "path": "notebooks/02-controlled-ablations.ipynb",
+    "executed_code_cells": 4,
+    "errors": 0,
+    "aggregate_figures": 2,
+    "figures_visually_inspected": true,
+    "execution_scope": "Reads committed aggregate study receipt; no retraining or raw competition rows"
+  }
+}

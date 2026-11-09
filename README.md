@@ -1,8 +1,24 @@
 # Home Credit Default Risk
 
-Rank loan applicants by the likelihood of payment difficulty using application data and credit histories. The model combines applicant-level financial ratios with bureau, prior-loan and payment aggregates, then trains five cross-validated LightGBM models.
+**Credit histories help rank applicants, but a useful model also needs trustworthy joins and validation.** This project revisits a 2018 Kaggle solution with modern LightGBM, applicant-level relational features and a reproducible batch workflow.
 
-This repository develops Chia-Ta Tsai's 2018 Kaggle solution into a current, reproducible experiment. The [notebook](notebooks/01-credit-risk.ipynb) examines the data, feature construction, out-of-fold predictions and saved-model checks. The original modeling framework remains in [legacy/](legacy/README.md).
+| What matters | What the evidence says |
+|---|---|
+| Competition context | The modern reference public AUC **0.79641** corresponds to approximately **top 33.4%** of the downloaded public leaderboard. The historical final stack's 0.79682 corresponds to **top 31.6%**. These are score-equivalent positions, not new official competition ranks. |
+| Controlled ablation | Adding selected history features raises mean OOF AUC **0.74634 → 0.75520** at 100 fixed rounds. The paired gain is **+0.00864 to +0.00910** across both model seeds on identical folds. |
+| Validation finding | Five stratified folds contain exactly **4,965 positive cases each**. OOF AUC is **0.79257**; fold AUC still spans **0.78784–0.79653**. Equal label balance does not make case difficulty equal. |
+
+AUC measures how well the model ranks payment-difficulty cases above other applicants; **0.79641 is not 79.6% accuracy**. Local out-of-fold predictions and hidden-test leaderboard scores answer different questions. The modern reference is close to the historical selected-feature model; it does not surpass the final historical stack. [Leaderboard percentile method and snapshot](docs/results.md#leaderboard-percentile-context) · [Executed walkthrough](notebooks/01-credit-risk.ipynb).
+
+The [controlled study](docs/modeling-study.md) separates feature contribution from training-seed variability. Its fixed budget is deliberately separate from the full early-stopped benchmark. The [executed ablation notebook](notebooks/02-controlled-ablations.ipynb) shows both seeds and every fold.
+
+## From applied science to an operated experiment
+
+[Consumer contract](docs/consumer-contract.md) · [Controlled modeling study](docs/modeling-study.md)
+
+The pipeline validates join grain, retains applicant identity, saves every fold model and independently reconstructs predictions. Local execution and Kaggle use the same package; artifact imports retain their source/data identity in the shared tracker. The [shared operations case study](https://github.com/cttsai1985/mlops-platform/blob/main/docs/batch-operations.md) demonstrates orchestration and recovery on Iceberg; it is not evidence that this credit model has been deployed to lending operations.
+
+This solution is a **consumer of MLOps capabilities** for reproducible batch research. Some historical feature construction uses the unlabeled combined population, and early stopping uses each reported validation fold. This is not a prospective lending validation or a deployed credit-decision service. [MLOps capability assessment](https://github.com/cttsai1985/mlops-platform/blob/main/docs/mlops-assessment.md).
 
 ## Application data and credit histories
 
