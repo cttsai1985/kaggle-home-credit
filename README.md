@@ -105,6 +105,7 @@ The [hosted notebook](notebooks/kaggle/rerun.ipynb) runs the same package from a
 ## Development
 
 ```bash
+uv sync --locked --group dev --group serving --group tracking --group tracking-test
 .venv/bin/ruff check src tests scripts
 .venv/bin/ruff format --check src tests scripts
 .venv/bin/pytest -q
