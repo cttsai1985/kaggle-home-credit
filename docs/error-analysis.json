@@ -1,0 +1,348 @@
+{
+  "schema_version": 1,
+  "analyzed_at": "2026-11-09T18:11:46.455072+00:00",
+  "scope": "Complete retained stratified OOF population; no fitting, filtering or submission",
+  "source_sha256": {
+    "analysis_script": "7a8f31afb5faf8121d712189b43dbb3200b8e48190f7929a6c2c7ab20c830280",
+    "producer_manifest": "5957846ee82098eda8a8ddc89cf5f7b293973261cb4769bfee04912fe32e703a",
+    "application_train.csv": "52e96b895b1112e1c853f670e58372719c8441c5ed1c57ac2f7fad559d784f5f",
+    "oof.csv": "8e7eb2e6b8ea74cf6f39af9396a06674c7bcb161012d5eb0e0172523c47bd1d2",
+    "metrics.json": "c99087a4d511373561cbfd45c1f32d49970b672f01bcd596abe7cc0016d10e80",
+    "profile_feature_cache": "812abaa2004cfa530d662d3fd7ffa996f9ee71b1ff22b36e0ab3d88963ed89d4"
+  },
+  "population": {
+    "rows": 307507,
+    "positives": 24825,
+    "negatives": 282682,
+    "eligibility": "source applications excluding CODE_GENDER=XNA; retained recipe",
+    "exact_application_ids_and_labels_verified": true,
+    "all_folds_retained": 5
+  },
+  "headline": {
+    "roc_auc": 0.7925749500292526,
+    "retained_roc_auc": 0.7925749500292526,
+    "absolute_metric_delta": 0.0
+  },
+  "diagnostic": {
+    "name": "opposite-class misranking fraction per application; half-weighted ties",
+    "mean_within_either_class_equals": "1 - full-population AUC",
+    "cohort_fraction_declared_within_each_class": 0.1,
+    "tie_break": "retained OOF file row order; stable descending burden sort",
+    "positive_and_negative_error_shares_must_not_be_added": true,
+    "hard_cohorts_require_observed_labels_and_are_not_unseen_case_selectors": true
+  },
+  "classes": {
+    "payment_difficulty": {
+      "label": 1,
+      "rows": 24825,
+      "mean_pairwise_misranking_fraction": 0.2074250499707474,
+      "probability_quantiles": {
+        "p10": 0.036507018700535854,
+        "p25": 0.07087713727423665,
+        "median": 0.14218615230184778,
+        "p75": 0.2676671053933692,
+        "p90": 0.41684692631423065
+      },
+      "burden_quantiles": {
+        "p10": 0.009084412873829958,
+        "p25": 0.03679045712142973,
+        "median": 0.12762397322786737,
+        "p75": 0.3088381998146327,
+        "p90": 0.5473040377526693
+      },
+      "hard_cohort_rows": 2483,
+      "actual_class_fraction": 0.10002014098690835,
+      "hard_cohort_probability_quantiles": {
+        "p10": 0.012151009419572312,
+        "p25": 0.017759723389468417,
+        "median": 0.024736238971547735,
+        "p75": 0.030726412276321086,
+        "p90": 0.03421666298361024
+      },
+      "hard_cohort_mean_burden": 0.7150726780925643,
+      "class_pairwise_error_share_in_hard_cohort": 0.3448072934719838
+    },
+    "other_applications": {
+      "label": 0,
+      "rows": 282682,
+      "mean_pairwise_misranking_fraction": 0.2074250499707474,
+      "probability_quantiles": {
+        "p10": 0.01201880360017324,
+        "p25": 0.020982219553271335,
+        "median": 0.04133534162165183,
+        "p75": 0.08594892929248107,
+        "p90": 0.16475301831561912
+      },
+      "burden_quantiles": {
+        "p10": 0.009748237663645519,
+        "p25": 0.036173212487411885,
+        "median": 0.12149043303121854,
+        "p75": 0.3095568982880161,
+        "p90": 0.5557703927492447
+      },
+      "hard_cohort_rows": 28269,
+      "actual_class_fraction": 0.10000283003516319,
+      "hard_cohort_probability_quantiles": {
+        "p10": 0.17496512445212645,
+        "p25": 0.19303677768948707,
+        "median": 0.23484142058881552,
+        "p75": 0.309289732530088,
+        "p90": 0.4066840690595896
+      },
+      "hard_cohort_mean_burden": 0.7184356247740337,
+      "class_pairwise_error_share_in_hard_cohort": 0.34636894476157126
+    }
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "rows": 61502,
+      "positives": 4965,
+      "auc": 0.787840122736154,
+      "global_burden_mean_by_class": {
+        "0": 0.21050539584616593,
+        "1": 0.20906358732051053
+      },
+      "hard_cohort_rows_by_class": {
+        "0": 5829,
+        "1": 510
+      }
+    },
+    {
+      "fold": 2,
+      "rows": 61502,
+      "positives": 4965,
+      "auc": 0.7929714058155573,
+      "global_burden_mean_by_class": {
+        "0": 0.20485835288179682,
+        "1": 0.20957442220489478
+      },
+      "hard_cohort_rows_by_class": {
+        "0": 5437,
+        "1": 510
+      }
+    },
+    {
+      "fold": 3,
+      "rows": 61501,
+      "positives": 4965,
+      "auc": 0.7965282162629563,
+      "global_burden_mean_by_class": {
+        "0": 0.2053934189959403,
+        "1": 0.20551703955123055
+      },
+      "hard_cohort_rows_by_class": {
+        "0": 5493,
+        "1": 491
+      }
+    },
+    {
+      "fold": 4,
+      "rows": 61501,
+      "positives": 4965,
+      "auc": 0.7946858303867842,
+      "global_burden_mean_by_class": {
+        "0": 0.20708301822963088,
+        "1": 0.20565568776184995
+      },
+      "hard_cohort_rows_by_class": {
+        "0": 5781,
+        "1": 469
+      }
+    },
+    {
+      "fold": 5,
+      "rows": 61501,
+      "positives": 4965,
+      "auc": 0.7908531184258395,
+      "global_burden_mean_by_class": {
+        "0": 0.20928505481486295,
+        "1": 0.20731451301525122
+      },
+      "hard_cohort_rows_by_class": {
+        "0": 5729,
+        "1": 503
+      }
+    }
+  ],
+  "selected_feature_associations": {
+    "payment_difficulty": {
+      "EXT_SOURCE_1": {
+        "hard": {
+          "rows_with_value": 1102,
+          "missing_fraction": 0.5561820378574305,
+          "median": 0.6050417125225067
+        },
+        "remaining": {
+          "rows_with_value": 8952,
+          "missing_fraction": 0.5993196669948975,
+          "median": 0.3363719880580902
+        }
+      },
+      "EXT_SOURCE_2": {
+        "hard": {
+          "rows_with_value": 2479,
+          "missing_fraction": 0.0016109544905356424,
+          "median": 0.6212892532348633
+        },
+        "remaining": {
+          "rows_with_value": 22294,
+          "missing_fraction": 0.00214842001611315,
+          "median": 0.4087120592594147
+        }
+      },
+      "EXT_SOURCE_3": {
+        "hard": {
+          "rows_with_value": 2109,
+          "missing_fraction": 0.15062424486508255,
+          "median": 0.6092756390571594
+        },
+        "remaining": {
+          "rows_with_value": 17039,
+          "missing_fraction": 0.2373556530301674,
+          "median": 0.3490552604198456
+        }
+      },
+      "AMT_CREDIT": {
+        "hard": {
+          "rows_with_value": 2483,
+          "missing_fraction": 0.0,
+          "median": 545040.0
+        },
+        "remaining": {
+          "rows_with_value": 22342,
+          "missing_fraction": 0.0,
+          "median": 490536.0
+        }
+      },
+      "AMT_INCOME_TOTAL": {
+        "hard": {
+          "rows_with_value": 2483,
+          "missing_fraction": 0.0,
+          "median": 157500.0
+        },
+        "remaining": {
+          "rows_with_value": 22342,
+          "missing_fraction": 0.0,
+          "median": 135000.0
+        }
+      },
+      "DAYS_BIRTH": {
+        "hard": {
+          "rows_with_value": 2483,
+          "missing_fraction": 0.0,
+          "median": -17270.0
+        },
+        "remaining": {
+          "rows_with_value": 22342,
+          "missing_fraction": 0.0,
+          "median": -14008.0
+        }
+      },
+      "DAYS_EMPLOYED": {
+        "hard": {
+          "rows_with_value": 1888,
+          "missing_fraction": 0.2396294804671768,
+          "median": -2040.0
+        },
+        "remaining": {
+          "rows_with_value": 19947,
+          "missing_fraction": 0.10719720705397905,
+          "median": -1179.0
+        }
+      }
+    },
+    "other_applications": {
+      "EXT_SOURCE_1": {
+        "hard": {
+          "rows_with_value": 11161,
+          "missing_fraction": 0.6051858926739538,
+          "median": 0.2818494141101837
+        },
+        "remaining": {
+          "rows_with_value": 112916,
+          "missing_fraction": 0.5561704787098144,
+          "median": 0.5403259694576263
+        }
+      },
+      "EXT_SOURCE_2": {
+        "hard": {
+          "rows_with_value": 28211,
+          "missing_fraction": 0.002051717428985815,
+          "median": 0.3413490355014801
+        },
+        "remaining": {
+          "rows_with_value": 253863,
+          "missing_fraction": 0.002161839214191099,
+          "median": 0.5888108015060425
+        }
+      },
+      "EXT_SOURCE_3": {
+        "hard": {
+          "rows_with_value": 21132,
+          "missing_fraction": 0.2524673670805476,
+          "median": 0.28224843740463257
+        },
+        "remaining": {
+          "rows_with_value": 206262,
+          "missing_fraction": 0.18926312727730107,
+          "median": 0.5656079649925232
+        }
+      },
+      "AMT_CREDIT": {
+        "hard": {
+          "rows_with_value": 28269,
+          "missing_fraction": 0.0,
+          "median": 474048.0
+        },
+        "remaining": {
+          "rows_with_value": 254413,
+          "missing_fraction": 0.0,
+          "median": 521280.0
+        }
+      },
+      "AMT_INCOME_TOTAL": {
+        "hard": {
+          "rows_with_value": 28269,
+          "missing_fraction": 0.0,
+          "median": 135000.0
+        },
+        "remaining": {
+          "rows_with_value": 254413,
+          "missing_fraction": 0.0,
+          "median": 153000.0
+        }
+      },
+      "DAYS_BIRTH": {
+        "hard": {
+          "rows_with_value": 28269,
+          "missing_fraction": 0.0,
+          "median": -13391.0
+        },
+        "remaining": {
+          "rows_with_value": 254413,
+          "missing_fraction": 0.0,
+          "median": -16164.0
+        }
+      },
+      "DAYS_EMPLOYED": {
+        "hard": {
+          "rows_with_value": 26222,
+          "missing_fraction": 0.07241147546782695,
+          "median": -1074.0
+        },
+        "remaining": {
+          "rows_with_value": 204076,
+          "missing_fraction": 0.19785545549952244,
+          "median": -1809.0
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Ranking diagnostics do not establish lending cutoffs, calibration or causal effects.",
+    "Both class-specific views describe the same errors; their shares are not additive.",
+    "Competition OOF does not establish future lending performance.",
+    "All rows and headline AUC are retained; no hard application is removed."
+  ]
+}

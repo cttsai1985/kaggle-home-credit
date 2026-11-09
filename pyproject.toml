@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "home-credit-risk"
-version = "0.2.0.dev1"
+version = "0.2.0.dev2"
 description = "Reproducible relational features and LightGBM for Home Credit Default Risk"
 readme = "README.md"
 license = "Apache-2.0"

@@ -22,7 +22,7 @@ with tempfile.TemporaryDirectory() as staging:
     receipt = {
         "wheel": wheel.name,
         "sha256": sha256(wheel),
-        "repository": "https://github.com/cttsai1985/kaggle-home-credit",
+        "repository": "https://github.com/cttsai1985/kaggle-home-credit-solution",
         "source": source_identity(),
     }
 (assets / "source.json").write_text(json.dumps(receipt, indent=2) + "\n")
