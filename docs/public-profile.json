@@ -1,0 +1,10 @@
+{
+  "repository": "cttsai1985/kaggle-home-credit-solution",
+  "verified_utc": "2026-11-09T18:18:18.173847+00:00",
+  "metadata": {
+    "description": "Home Credit solution. Historical blend AUC 0.79764: 2,126–2,127/7,180 (Top 29.61%); modern LightGBM 0.79641: 2,396/7,180 (Top 33.37%). Public score-equivalent ranks, 2026-11-09 snapshot.",
+    "name": "kaggle-home-credit-solution",
+    "url": "https://github.com/cttsai1985/kaggle-home-credit-solution"
+  },
+  "scope": "Public score-equivalent rank against the dated official snapshot; not an awarded final rank."
+}

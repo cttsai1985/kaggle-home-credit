@@ -1,5 +1,7 @@
 # Stratified cross-validation and benchmark evidence
 
+[Hard-case diagnostics and next experiments](error-analysis.md) · [Acceptance audit](requirements-audit.md)
+
 The current baseline uses all **307,507 eligible labeled applicants**, all **48,744 test applicants**, **528 selected features** and five disjoint applicant folds. The official competition metric is ROC AUC, where higher is better.
 
 | Experiment | OOF AUC | Public AUC | Private AUC |
@@ -61,6 +63,7 @@ A score becomes easier to interpret when compared with other teams. The official
 | Historical selected-feature LightGBM | 0.79571 | 2699 / 7,180 | 37.59% | 62.41% |
 | Historical final XGBoost stack | 0.79682 | 2272–2275 / 7,180 | 31.64% | 68.31% |
 | Recorded current KFold reference | 0.79641 | 2396 / 7,180 | 33.37% | 66.63% |
+| Historical blend | 0.79764 | 2126–2127 / 7,180 | 29.61% | 70.38% |
 
 Snapshot: **2026-11-09T00:02:26Z**, **7,180 unique scored teams** in the [official public leaderboard](https://www.kaggle.com/competitions/home-credit-default-risk/leaderboard?tab=public). Smaller top-share percentages and larger outperformed percentages are better.
 

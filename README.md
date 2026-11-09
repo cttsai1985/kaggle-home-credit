@@ -8,6 +8,27 @@ For a lender, the next question is whether better risk differentiation improves 
 
 [Feature study](docs/modeling-study.md) · [Results](docs/results.md) · [Run the solution](#run-the-experiment)
 
+<!-- portfolio-results:start -->
+## Results
+
+**Public leaderboard — ROC AUC ↑.**
+
+| Model / submission | Public score | Public reference rank / teams | Top % | Reference ties |
+|---|---:|---:|---:|---:|
+| Historical selected-feature LightGBM | 0.79571 | 2,699 / 7,180 | **37.59%** | 1 |
+| Historical final XGBoost stack | 0.79682 | 2,272–2,275 / 7,180 | **31.64%** | 4 |
+| Recorded current KFold reference | 0.79641 | 2,396 / 7,180 | **33.37%** | 1 |
+| Historical blend | 0.79764 | 2,126–2,127 / 7,180 | **29.61%** | 2 |
+
+Reference: **2026-11-09T00:02:26Z**, **7,180 unique scored teams**. Ranks are score-equivalent comparisons with the dated public export, not awarded final ranks. Lower Top % is better. A zero tie count denotes an insertion position; ties occupy the shown interval.
+
+**OOF/holdout rank and Top %: not applicable. Private leaderboard rank and Top %: unavailable without a matching private reference population.** Internal validation and private scores remain separately reported in [detailed results](docs/results.md). [Reference data and calculation](docs/leaderboard-context.json).
+<!-- portfolio-results:end -->
+
+## Where risk ranking breaks down
+
+On all 307,507 retained OOF applications, the hardest 10% within each class accounts for about 34.5% of that class's pairwise-ranking errors. The two views overlap and must not be added. External-score patterns motivate a controlled history-feature comparison within predefined strata, rather than removing difficult applicants or changing the reported evaluation. [Hard-case analysis and next experiment](docs/error-analysis.md).
+
 ## Relational features and LightGBM
 
 The feature set combines:

@@ -77,6 +77,20 @@
       "top_percent_by_best_position": 33.370473537604454,
       "strictly_outperformed_percent": 66.62952646239555,
       "weak_percentile_including_ties": 66.64345403899722
+    },
+    {
+      "id": "historical-blend",
+      "label": "Historical blend",
+      "public_score": "0.79764",
+      "reference_teams": 7180,
+      "teams_with_strictly_better_score": 2125,
+      "teams_with_equal_displayed_score": 2,
+      "teams_with_strictly_worse_score": 5053,
+      "score_equivalent_best_position": 2126,
+      "score_equivalent_last_tied_position": 2127,
+      "top_percent_by_best_position": 29.610027855153202,
+      "strictly_outperformed_percent": 70.37604456824512,
+      "weak_percentile_including_ties": 70.40389972144847
     }
   ]
 }
