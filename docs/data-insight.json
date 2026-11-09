@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "scope": "descriptive join-grain audit of the existing authorized input snapshot; no new model fit",
+  "eligible_applicants": 307507,
+  "eligibility": "application_train excluding CODE_GENDER=XNA, matching the selected-feature recipe",
+  "source_sha256": {
+    "application_train.csv": "52e96b895b1112e1c853f670e58372719c8441c5ed1c57ac2f7fad559d784f5f",
+    "bureau.csv": "9d799143423f280720cf51c1bfbbab2a0422da8ff2763335bb30bf43155494f7",
+    "previous_application.csv": "5046cd657ee04df2eaa6dc8308ae86be6b3b1763674a3f63574886a2f2896505"
+  },
+  "bureau_history": {
+    "applicants_with_multiple_rows": 227415,
+    "max_rows_per_applicant": 116
+  },
+  "previous_applications": {
+    "applicants_with_multiple_rows": 238520,
+    "max_rows_per_applicant": 73
+  },
+  "hypothetical_direct_left_join": {
+    "definition": "Left join application_train to bureau and previous_application on SK_ID_CURR without aggregation. Per-applicant multiplicity = max(bureau_count,1)*max(previous_application_count,1).",
+    "rows": 8091067,
+    "row_inflation_factor": 26.311814040005594,
+    "max_rows_for_one_applicant": 1927,
+    "positive_fraction_applicant_weighted": 0.08072986956394489,
+    "positive_fraction_join_row_weighted": 0.08872426838141373,
+    "measured_model_score_effect": null
+  },
+  "interpretation": "This computes the row multiplicity of a counterfactual naive join; the maintained pipeline aggregates first and does not perform this erroneous join. It is not an observed production incident or a fitted-model causal experiment."
+}

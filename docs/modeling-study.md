@@ -1,8 +1,18 @@
-# Does credit history add value beyond the application?
+# Credit history earns its place in this fixed-budget model
 
-## Finding
+This study uses a conventional competition model to examine evaluation and reproducibility decisions. Its role in the portfolio is engineering validation; the component comparison is not presented as a novel modeling contribution.
 
-Adding selected credit-history aggregates raises mean OOF AUC from **0.746335 to 0.755201** at 100 fixed boosting rounds. The paired gain is **+0.008635 to +0.009098** across both model seeds, larger than the observed model-seed spread. This supports retaining history information within this recipe and budget. Both feature sets use every eligible applicant and the same five stratified folds.
+**Removing the history tables sacrifices ranking quality even when applicants, folds and training budget stay fixed.** Adding selected credit-history aggregates raises mean out-of-fold AUC from **0.746335 to 0.755201** at 100 boosting rounds. This gives a concrete reason to retain the history features in the current recipe: the simpler application-only version loses predictive information under the tested conditions.
+
+The modeling question is whether the extra relational data contribute anything beyond the current application. Comparing the full historical pipeline with a separately tuned application model would leave several explanations open. Here the two variants use every eligible applicant, the same folds and parameters, and exactly 100 rounds without early stopping. The controlled change is inclusion of selected history features. Their paired AUC gains are **+0.009098** and **+0.008635**, larger than the observed variation between model seeds within either feature set.
+
+The retained fold results make the conclusion more specific: **all ten matched seed/fold comparisons improve**, with gains from **+0.007815 to +0.010286**. The pooled improvement therefore is not carried by one favorable held-out partition. These are arithmetic differences from the `runs[].folds` entries in the [study receipt](modeling-study.json), not additional experiments or ten independent replications.
+
+The bounded interpretation is that selected applicant histories contain useful ranking information for this recipe and budget. The study does not identify which history table or behavior supplies the gain: all selected relational groups enter together. Nor does it establish that the larger feature set remains preferable after full-budget tuning. The feature selection was inherited, and the cache includes unlabeled category and organization-income summaries drawn partly from test rows. Those limits prevent translating the gain into a prospective lending claim.
+
+The decision is to retain history information in this benchmark rather than simplify away the joins on the assumption that application attributes suffice. It is not a claim that every history aggregate is necessary or that its operational cost has been optimized. A useful next question is which history groups preserve the gain; a deployment-oriented study would first need point-in-time, train-only feature construction. Neither follow-up has been performed here.
+
+## Retained comparison
 
 | Feature set | Features | Mean OOF AUC across 2 model seeds | Model-seed range | Sample SD across seeds |
 |---|---:|---:|---:|---:|
@@ -13,8 +23,6 @@ Adding selected credit-history aggregates raises mean OOF AUC from **0.746335 to
 |---|---:|
 | 0 | +0.009098 |
 | 1 | +0.008635 |
-
-Relational features improve AUC in both retained model seeds. This supports retaining the history tables in this fixed-budget recipe.
 
 ## Hypothesis and controlled comparison
 
