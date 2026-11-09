@@ -1,8 +1,22 @@
 # Home Credit requirements audit
 
-Review date: **2026-11-09** · Acceptance standard: [Portfolio standard 1.0](portfolio-standard.md).
+## Presentation update — standard 1.1
 
-This audit covers the current `fix/portfolio-evidence` correction, the recorded
+The current primary display pairs **Public LB** and **Private LB** scores with
+**Public Top %**. Rank/team counts and ties remain in detailed source evidence;
+they are no longer repeated in the README table or GitHub description. Private
+scores do not inherit public percentiles. This supersedes the canary-2 presentation
+format reviewed below; its historical regression and source-preservation review
+remain dated evidence. Local reproducibility may use scientific functions, a
+notebook, script or existing thin command entry point; no bespoke CLI is required.
+The existing canary-2 releases and completed merge/branch cleanup remain intact.
+The original profile/standard are retained at `v0.2.0-canary.2`; the current
+profile receipt records the latest approved compact description.
+
+
+Review date: **2026-11-09** · Acceptance standard: [Portfolio standard 1.1](portfolio-standard.md).
+
+This audit covers the canary-2 `fix/portfolio-evidence` correction, the recorded
 canary and retained modeling/evaluation evidence. **Evidenced** identifies a scoped
 implementation or completed check; **release gate** identifies final CI/merge/
 publication work for this correction. **Open P1** items remain accepted work.
@@ -12,7 +26,7 @@ Nothing in this matrix declares a deployed production lending system.
 
 The editorial change retained scientific result files but weakened result visibility:
 
-| Surface | Before the editorial change | Prior canary presentation | Current correction |
+| Surface | Before the editorial change | Prior canary presentation | Canary-2 correction |
 |---|---|---|---|
 | README ranking paragraph | Line **5** at `e601bc7` | Line **72** at `0f4ecb0`, after model/validation detail | A primary **Results** section immediately after the brief opening and before model/reproduction/infrastructure detail |
 | GitHub description | Score/ranking context was a portfolio requirement | Replaced by a problem-only summary without score, reference position/N or Top % | Live description pairs historical and current public results with reference counts and Top % |
@@ -39,8 +53,8 @@ stratified default's OOF AUC is not assigned the KFold submission's public rank.
 |---|---|---|---|
 | R01 | P0 | Evidenced; final portfolio review remains a release responsibility | Every R01–R26 requirement in [standard 1.0](portfolio-standard.md) is mapped here. Naming, serving or business prose cannot silently replace evaluation, ranking or production requirements. |
 | R02 | P0 | Evidenced — complete solution | [README](../README.md) connects repayment-risk assessment with application-level aggregation, five-fold LightGBM, controlled feature evidence, validation and runnable prediction/export paths. |
-| R03 | P0 | Restored; source-backed guard added | The first Results section visibly pairs all four public scores with reference rank/N, Top % and ties. [Public profile](public-profile.json) restores historical/current description entries. [Portfolio check](../scripts/check_portfolio.py) protects this display against the reference receipt. The regression is recorded above. |
-| R04 | P0 | Evidenced — metric and population scope | [Results](results.md) distinguishes current stratified OOF, KFold reference, capacity comparison, hosted runs and historical public/private AUCs. Public comparisons carry metric direction, matched population, dated snapshot and tie intervals in [leaderboard context](leaderboard-context.json). |
+| R03 | P0 | Verified compact presentation | Primary README and description retain public/private scores and public Top %. Rank/N and ties stay in linked detailed evidence. |
+| R04 | P0 | Verified source scope | The metric/direction and submission are identified; private scores are paired with the same public submission. Detailed evidence retains reference counts, ties and snapshot. |
 | R05 | P0 | Evidenced — no transferred rank | README/results explicitly distinguish score-equivalent positions from awarded rank, public/private populations, authenticated historical scores from source-reproduced models, and OOF from leaderboard evaluation. No private or OOF percentile is invented. |
 | R06 | P0 | Evidenced — controlled feature insight | [Modeling study](modeling-study.md) holds eligible applications, folds, seeds and 100-round budget fixed: selected application/history features raise mean OOF AUC **0.746335 → 0.755201**, with all ten paired seed/fold comparisons retained. It explains the decision and untested table-specific/longitudinal follow-ups. |
 | R07 | P0 | Evidenced within retained OOF; mechanisms remain hypotheses | [Error analysis](error-analysis.md) links engineered feature conditions, five-fold ranking and observed failures using exact pairwise burden. It profiles supported external-score/missingness associations and proposes a fit-defined stratified history comparison. It does not claim causal feature explanations. |
@@ -72,7 +86,7 @@ The inspected comparisons are:
    `e601bc7c7af0854a144cab148deb07121c3459b4`.
 2. **Published prior-canary merge:**
    `0f4ecb0ba2099e243032db9389b3b354c932c3d4`.
-3. **Current correction:** the working tree based on that prior-canary merge,
+3. **Canary-2 correction:** the working tree based on that prior-canary merge,
    reviewed before its final correction commit/release.
 
 `git diff --name-status` is empty for this path scope in both
@@ -88,7 +102,7 @@ before→canary and canary→current comparisons:
 
 The canary added `src/home_credit/serving.py` and changed package identity metadata
 in `src/home_credit/__init__.py`; those changes are outside the preserved training
-scope. The current correction leaves the serving adapter unchanged.
+scope. The canary-2 correction leaves the serving adapter unchanged.
 `docs/canary-validation.json` remains byte-identical to `0f4ecb0`.
 
 There are intentional evidence-presentation additions:
