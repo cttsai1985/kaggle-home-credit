@@ -1,24 +1,22 @@
 # Home Credit Default Risk
 
-**Credit histories help rank applicants, but a useful model also needs trustworthy joins and validation.** This project revisits a 2018 Kaggle solution with modern LightGBM, applicant-level relational features and a reproducible batch workflow.
+A historical credit-risk baseline used as a **case study in reliable ML engineering**: preserve the prediction unit across relational data, make comparisons auditable, and deliver the exact verified model artifacts. The engineering decisions and their evidence are the contribution.
 
-| What matters | What the evidence says |
-|---|---|
-| Competition context | The modern reference public AUC **0.79641** corresponds to approximately **top 33.4%** of the downloaded public leaderboard. The historical final stack's 0.79682 corresponds to **top 31.6%**. These are score-equivalent positions, not new official competition ranks. |
-| Controlled ablation | Adding selected history features raises mean OOF AUC **0.74634 → 0.75520** at 100 fixed rounds. The paired gain is **+0.00864 to +0.00910** across both model seeds on identical folds. |
-| Validation finding | Five stratified folds contain exactly **4,965 positive cases each**. OOF AUC is **0.79257**; fold AUC still spans **0.78784–0.79653**. Equal label balance does not make case difficulty equal. |
+The historical final stack's public AUC **0.79682** corresponds to approximately **top 31.6%** of the downloaded public leaderboard; the modern reference's **0.79641** corresponds to **top 33.4%**. [Percentile method and snapshot](docs/results.md#leaderboard-percentile-context). These are score-equivalent positions, separate from official late-entry ranks. AUC measures ranking, not classification accuracy.
 
-AUC measures how well the model ranks payment-difficulty cases above other applicants; **0.79641 is not 79.6% accuracy**. Local out-of-fold predictions and hidden-test leaderboard scores answer different questions. The modern reference is close to the historical selected-feature model; it does not surpass the final historical stack. [Leaderboard percentile method and snapshot](docs/results.md#leaderboard-percentile-context) · [Executed walkthrough](notebooks/01-credit-risk.ipynb).
+## Joining the data can change what the model learns
 
-The [controlled study](docs/modeling-study.md) separates feature contribution from training-seed variability. Its fixed budget is deliberately separate from the full early-stopped benchmark. The [executed ablation notebook](notebooks/02-controlled-ablations.ipynb) shows both seeds and every fold.
+The prediction unit is an applicant, while bureau and previous-application tables contain multiple records per applicant. On this input snapshot, directly left-joining those two histories would expand **307,507 applicants into 8,091,067 rows**. The same applicants would then receive unequal weights: positive prevalence changes from **8.07% per applicant to 8.87% per joined row** without adding a single applicant.
 
-## From applied science to an operated experiment
+That is why aggregation and join-grain validation belong before training. They preserve the intended learning unit, rather than merely saving memory. The maintained pipeline aggregates first and keeps one row per applicant; this audit quantifies the counterfactual join it prevents. It is not a discovered production incident or a measured model-score effect. [Calculation and source identities](docs/data-insight.json) · [Consumer requirements](docs/consumer-contract.md).
 
-[Consumer contract](docs/consumer-contract.md) · [Controlled modeling study](docs/modeling-study.md)
+## More features need evidence; completed artifacts need verification
 
-The pipeline validates join grain, retains applicant identity, saves every fold model and independently reconstructs predictions. Local execution and Kaggle use the same package; artifact imports retain their source/data identity in the shared tracker. The [shared operations case study](https://github.com/cttsai1985/mlops-platform/blob/main/docs/batch-operations.md) demonstrates orchestration and recovery on Iceberg; it is not evidence that this credit model has been deployed to lending operations.
+The bounded feature comparison gives a reason to retain the history-table complexity: it improves all ten matched seed/fold comparisons at the same 100-round budget. The result is useful for validating the recipe; it does not establish a novel credit model or prospective lending performance. [Controlled study](docs/modeling-study.md) · [Executed notebook](notebooks/02-controlled-ablations.ipynb).
 
-This solution is a **consumer of MLOps capabilities** for reproducible batch research. Some historical feature construction uses the unlabeled combined population, and early stopping uses each reported validation fold. This is not a prospective lending validation or a deployed credit-decision service. [MLOps capability assessment](https://github.com/cttsai1985/mlops-platform/blob/main/docs/mlops-assessment.md).
+Artifact delivery has its own failure boundary. A successful local experiment remains valid if a tracker transfer fails; recovery should reuse its identity and verify remote bytes, rather than retrain or silently create a replacement run. Fault-injection tests exercise that client contract. The shared platform's real saved-model batch drill uses Iceberg; it is not an execution claim for this credit model.
+
+This solution consumes shared MLOps services. Its responsibilities are data/model contracts, reproducible evaluation and verified batch outputs. [Consumer contract](docs/consumer-contract.md) · [Engineering boundaries](https://github.com/cttsai1985/mlops-platform/blob/main/docs/mlops-assessment.md) · [Original walkthrough](notebooks/01-credit-risk.ipynb).
 
 ## Application data and credit histories
 

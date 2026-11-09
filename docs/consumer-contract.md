@@ -2,6 +2,16 @@
 
 The solution owns the modeling question, validation method and acceptance criteria. It consumes shared execution, tracking and storage services. Its scientific claims do not become stronger merely because a run appears in MLflow.
 
+## Why the applicant is a data contract
+
+A row is not automatically a training observation. This snapshot has 307,507 eligible applicants, but 227,415 have multiple bureau records and 238,520 have multiple previous applications. Directly left-joining both histories would create **8,091,067 rows**, averaging **26.31 rows per applicant**. Some applicants would receive much more implicit weight than others.
+
+The effect is visible without fitting a model: positive prevalence is **8.07% when each applicant counts once**, but **8.87% when each hypothetical joined row counts once**. The labels have not changed; their weights have. This explains why aggregation and row-grain assertions protect the learning objective, rather than merely making a join faster.
+
+The maintained pipeline aggregates histories before joining and preserves one applicant per feature row. At delivery, the same identity contract requires every expected test applicant exactly once in the correct order. A finite probability array alone cannot establish a correct handoff. The audit describes a counterfactual naive join, not a production incident or a measured effect on model AUC. [Aggregate calculation and exact source hashes](data-insight.json).
+
+The calculation avoids materializing the expanded join. For each eligible applicant, let `b` be its bureau-row count and `p` its previous-application count. A pair of left joins creates `max(b, 1) × max(p, 1)` rows. Sum this multiplicity to obtain the joined row count; weight each applicant's target by it to obtain the joined-row positive fraction. Eligibility excludes the same four `CODE_GENDER=XNA` rows as the selected-feature recipe. The source tables and formula make this descriptive check reproducible.
+
 ## From scientific evidence to an executable job
 
 | Boundary | This solution supplies | What it expects from shared services |
