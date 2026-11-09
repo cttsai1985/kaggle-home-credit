@@ -84,7 +84,7 @@ export MLFLOW_TRACKING_URI=http://127.0.0.1:5500
 
 The client passes an isolated SQLite-backed MLflow test covering artifact upload/retrieval, repeated imports and conflict rejection. Run it with `uv sync --locked --group dev --group tracking --group tracking-test` and `.venv/bin/pytest -q`. The real benchmark was also imported into the shared experiment, reimported without duplication, and its first model retrieved with a matching SHA-256. Exact evidence is in [validation.json](validation.json).
 
-The current host route is port 5500; configure it for your deployment. A host-loopback binding cannot be reached simply through Docker's host gateway. For Lab, attach the platform client network as shown below and use `http://mlflow:5000`. Use runtime authentication, not credentials in the URI. The client requires a preprovisioned `kaggle/home-credit` experiment and fails with a bootstrap instruction when it is absent. It checks artifact hashes and logical run identity before import, rejects other project identities and refuses unexpected artifact names. The shared MLflow server owns its artifact-store route; SeaweedFS can remain behind that route. An optional client-side filesystem mount is separate:
+The current host route is port 5500; configure it for your deployment. A host-loopback binding cannot be reached simply through Docker's host gateway. For Lab, attach the platform client network as shown below and use `http://mlflow:5000`. Use runtime authentication, not credentials in the URI. The client requires an existing `kaggle/home-credit` experiment with artifact location `mlflow-artifacts:/projects/home-credit`; an authorized operator provisions it through MLflow from this repository's configuration. The importer fails when the experiment is absent rather than choosing another namespace. It checks artifact hashes and logical run identity before import, rejects other project identities and refuses unexpected artifact names. The shared MLflow server owns its artifact-store route; SeaweedFS can remain behind that route. An optional client-side filesystem mount is separate:
 
 ```bash
 export SEAWEED_MOUNT=/absolute/path/to/existing/client-mount
@@ -103,7 +103,7 @@ docker compose -f compose.yaml -f docker/compose.platform.yaml up -d lab
 
 The override adds the existing client network alongside Lab's own network and sets `MLFLOW_TRACKING_URI=http://mlflow:5000`. Its default network name is `mlops-platform_clients` for the shared platform. It does not attach database or object-store administration networks. Use an actual reachable endpoint and verify connectivity before importing runs.
 
-### Shared platform identities
+### Client-owned service identities
 
 | Resource | Identity |
 |---|---|
@@ -111,9 +111,9 @@ The override adds the existing client network alongside Lab's own network and se
 | MLflow experiment | `kaggle/home-credit` |
 | Reserved registered model | `kaggle-home-credit` |
 | Prefect flow/deployment contract | `kaggle-home-credit/local` |
-| Platform artifact proxy prefix | `mlflow-artifacts:/projects/home-credit` |
+| Client-declared artifact proxy prefix | `mlflow-artifacts:/projects/home-credit` |
 
-The [shared MLOps platform](https://github.com/cttsai1985/mlops-platform) owns service provisioning, registry mappings and artifact-store configuration. The prefix above is a platform bootstrap contract; this project does not migrate an existing experiment or object store. Tracking uses runtime endpoint configuration and tags each import with project, logical run and available source identities. Older recorded benchmark manifests are accepted through the project's default identity without rewriting their source claims. Reserved registry/deployment names do not imply a promoted model or deployed Prefect flow.
+The [shared MLOps platform](https://github.com/cttsai1985/mlops-platform) owns service deployment, access control and physical artifact-store configuration. This repository owns the names and logical prefix above; adding the solution requires no catalog entry or source-code change in the platform. Provisioning uses those client-declared values through MLflow and does not migrate an existing experiment or object store. Tracking uses runtime endpoint configuration and tags each import with project, logical run and available source identities. Older recorded benchmark manifests are accepted through the project's default identity without rewriting their source claims. Reserved registry/deployment names do not imply a promoted model or deployed Prefect flow.
 
 ## Recover an interrupted tracking import
 

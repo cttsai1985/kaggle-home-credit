@@ -44,8 +44,8 @@ def track(run_dir: Path, tracking_uri: str, *, resume: bool = False) -> dict:
     experiment = client.get_experiment_by_name("kaggle/home-credit")
     if experiment is None:
         raise RuntimeError(
-            "Experiment kaggle/home-credit is missing; bootstrap it through mlops-platform "
-            "before importing runs"
+            "Experiment kaggle/home-credit must be provisioned by an authorized MLflow operator "
+            "using the client-owned namespace before import"
         )
     digest = sha256(run_dir / "manifest.json")
     source = manifest.get("source", {})
