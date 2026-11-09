@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "home-credit-risk"
-version = "0.1.0"
+version = "0.2.0.dev1"
 description = "Reproducible relational features and LightGBM for Home Credit Default Risk"
 readme = "README.md"
 license = "Apache-2.0"
@@ -19,6 +19,7 @@ dev = ["pytest>=8,<10", "ruff>=0.11,<1"]
 lab = ["jupyterlab>=4,<5", "nbclient>=0.10,<1", "nbconvert>=7,<8", "matplotlib>=3.10,<4"]
 data = ["kaggle>=2,<3"]
 tracking = ["mlflow-skinny>=3,<4"]
+serving = ["mlflow==3.18.0"]
 tracking-test = ["sqlalchemy>=2,<3", "alembic>=1.15,<2"]
 
 [tool.hatch.build.targets.wheel]
