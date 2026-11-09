@@ -112,7 +112,7 @@ def test_mlflow_import_uploads_artifacts_once_and_rejects_conflicts(
     try:
         mlflow.set_tracking_uri(uri)
         client = mlflow.MlflowClient()
-        with pytest.raises(RuntimeError, match="bootstrap"):
+        with pytest.raises(RuntimeError, match="authorized MLflow operator"):
             track(run, uri)
         assert client.get_experiment_by_name("kaggle/home-credit") is None
         experiment = client.create_experiment(
